@@ -1,0 +1,2 @@
+client-Id:83758517278-4eki251pfuanpg378sj1eeqjuivtr5d3.apps.googleusercontent.com
+client-secret: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
