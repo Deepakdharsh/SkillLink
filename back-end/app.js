@@ -17,7 +17,12 @@ app.use(cors({
     credentials: true 
 }))
 
+/* DATABASE=mongodb://127.0.0.1:27017/skillLink
+PORT=8000
 
+JWT_SECRET=my-ultra-secure-and-ultra-long-secret
+JWT_EXPIRES_IN=90d
+*/
 app.use("/admin",adminRoute)
 app.use("/client",clientRoute)
 app.use("/freelancer",freelancerRoute)
