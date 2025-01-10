@@ -6,7 +6,11 @@ export const createUser = async (data) => {
     console.log(response.data)
     return response.data;
   } catch (error) {
-    console.error('Error creating item:', error);
+    if(error.response){
+      console.error('Error :', error.response.data);
+    }else{
+      console.error('Error:',error.message)
+    }
   }
 };
 
@@ -16,7 +20,11 @@ export const loginUser = async (data) => {
     console.log(response.data)
     return response.data;
   } catch (error) {
-    console.error('Error creating item:', error);
+    if(error.response){
+      console.error('Error :', error.response.data);
+    }else{
+      console.error('Error:',error.message)
+    }
   }
 };
 
@@ -26,7 +34,11 @@ export const googleSignIn = async (data) => {
     console.log(response.data)
     return response.data;
   } catch (error) {
-    console.error('Error creating item:', error);
+    if(error.response){
+      console.error('Error :', error.response.data);
+    }else{
+      console.error('Error:',error.message)
+    }
   }
 };
 
@@ -36,6 +48,10 @@ export const sentOtp = async (data) => {
     console.log(response.data)
     return response.data;
   } catch (error) {
-    console.error('Error creating item:', error);
+    if(error.response){
+      console.error('Error :', error.response.data);
+    }else{
+      console.error('Error:',error.message)
+    }
   }
 };

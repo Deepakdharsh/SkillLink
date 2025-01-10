@@ -2,18 +2,19 @@ const bcrypt=require("bcrypt")
 const UserModel=require("../models/userModel")
 const jwt=require("jsonwebtoken")
 const nodemailer = require('nodemailer');
+const createError=require("http-errors")
 
 const signToken=id=>{
     return jwt.sign({id},process.env.JWT_SECRET,{expiresIn:process.env.JWT_EXPIRES_IN})
 }
 
-exports.sendOtp=(req,res)=>{
+exports.sendOtp=(req,res,next)=>{
 
     try {
         const {email}=req.body;
         console.log(email)
 
-        if(!email) throw new Error("something went wrong")
+        if(!email) throw createError(503,"something went wrong")
 
         const otp = Math.floor(1000 + Math.random() * 9000); 
         req.session.otp=otp;
@@ -45,27 +46,24 @@ exports.sendOtp=(req,res)=>{
         status:"success",
       })
     } catch (error) {
-        res.status(500).json({
-            status:"failed",
-            err:error
-        })
+        next(error)
     }
 }
 
-exports.signUp=async(req,res)=>{
+exports.signUp=async(req,res,next)=>{
     try {
         const sessionOtp=req.session.otp;
         const {username,email,password,otp}=req.body
         console.log( typeof req.body.otp)
         console.log(typeof sessionOtp)
         
-        if(Number(otp)!==sessionOtp) throw new Error("Invaild otp")
+        if(Number(otp)!==sessionOtp) throw createError(400,"Invaild otp")
 
-        if(!username||!email||!password) throw new Error("req.body is empty")
+        if(!username||!email||!password) throw createError(400,"req.body is empty")
             
         const user = await UserModel.findOne({email})
 
-        if(user) throw new Error("User already exists")
+        if(user) throw createError(503,"User already exists")
 
         const newUser = await UserModel.create({
             name:username,
@@ -84,18 +82,17 @@ exports.signUp=async(req,res)=>{
         })
         
         
-    } catch (err) {
-            const error=err
-            error.stat
+    } catch (error) {
+        next(error)
     }   
 }
 
-exports.login=async(req,res)=>{
+exports.login=async(req,res,next)=>{
     try {
         const {email,password}=req.body
         // console.log(req.body)
         if(!email||!password){
-            throw  new Error("please provide email and password")
+            throw  createError(400,"please provide email and password")
         }
 
         const user = await UserModel.findOne({email}).select("+password")
@@ -103,7 +100,7 @@ exports.login=async(req,res)=>{
         // const match = await bcrypt.compare(password,user.password)
 
         if(!user||!(await user.correctPassword(password,user.password))){
-         throw  new Error("incorrect email or password")
+         throw  createError(401,"incorrect email or password")
         }
         
         const token = signToken(user._id)
@@ -117,19 +114,16 @@ exports.login=async(req,res)=>{
         })
 
     } catch (error) {
-            res.status(500).json({
-            status:"failed",
-            error:error.message
-            })
+        next(error)
     }
 }
 
-exports.googleSignIn=async(req,res)=>{
+exports.googleSignIn=async(req,res,next)=>{
     try {
         const {email,given_name:name,sub:googleID,picture:photo}=req.body
         console.log(req.body)
         if(!email||!name||!googleID){
-            throw new Error("please provide email and password")
+            throw createError(400,"please provide email and password")
         }
 
         const user = await UserModel.findOne({email}).select("+password")
@@ -165,14 +159,11 @@ exports.googleSignIn=async(req,res)=>{
                 user
             }
         })
-        }
+     }
         
         
     } catch (error) {
-            res.status(200).json({
-            status:"failed",
-            error:error.message
-            })
+        next(error)
     }
 }
 
@@ -185,12 +176,12 @@ exports.protected=async(req,res,next)=>{
      }
  
      if(!token){
-        return new Error("your are not logged-In")
+        return createError(401,"your are not logged-In")
      }
 
      const isVerified=jwt.verify(token,process.env.JWT_SECRET)
 
-     if(!isVerified) return new Error("invaild token")
+     if(!isVerified) return createError(401,"invaild token")
     
      const decoded=jwt.decode(token)
 
@@ -200,10 +191,7 @@ exports.protected=async(req,res,next)=>{
      next()
      
    } catch (error) {
-        res.status(500).json({
-        status:"failed",
-        message:error.message
-        })
+        next(error)
    }
 }
 

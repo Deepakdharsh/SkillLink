@@ -2,6 +2,7 @@ const express=require("express")
 const cookieParser=require("cookie-parser")
 const cors=require("cors")
 const session = require('express-session');
+const createError=require("http-errors")
 const adminRoute=require("./routes/adminRoute")
 const clientRoute=require("./routes/clientRoute")
 const freelancerRoute=require("./routes/freelancerRoute")
@@ -32,9 +33,13 @@ app.use("/admin",adminRoute)
 app.use("/client",clientRoute)
 app.use("/freelancer",freelancerRoute)
 
+app.all("*",(req,res,next)=>{
+  next(createError(404, 'Page not found'));
+})
 
 app.use((err, req, res, next) => {
-  console.error(err.stack);
+
+  // console.error(err.stack);
 
   res.status(err.status || 500).json({
     success: false,
