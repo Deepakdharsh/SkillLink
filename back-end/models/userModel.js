@@ -25,32 +25,21 @@ const UserSchema=new mongoose.Schema({
     password:{
         type:String,
         trim:true,
-        required:[true,"A user must have password"],
+        // required:[true,"A user must have password"],
         min:[8,"A password must have aleast 8 charcters"],
         select:false
     },
+    googleID:String,
     Skills:{
         type:[String]
     },
     isBlocked:Boolean
-    // passwordConfirm:{
-    //     type:String,
-    //     trim:true,
-    //     required:[true,"A user must have conform Password"],
-    //     //This only works on create or Save!!! Not work on update
-    //     vaildate:{
-    //         validator:function(el){
-    //             return el===this.password
-    //         },
-    //         message:"Password are not same "
-    //     }
-    // }
 },{timestamps:true})
 
 UserSchema.pre("save",async function(next){
   if(!this.isModified("password")) return next()
    
-  this.password=await bcrypt.hash(this.password,12)
+  this.password = bcrypt.hash(this.password,12)
 
   next()
 

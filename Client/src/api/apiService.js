@@ -22,7 +22,17 @@ export const loginUser = async (data) => {
 
 export const googleSignIn = async (data) => {
   try {
-    const response = await axiosInstance.post('/client/sign-in', data);
+    const response = await axiosInstance.post('/client/google-in', data);
+    console.log(response.data)
+    return response.data;
+  } catch (error) {
+    console.error('Error creating item:', error);
+  }
+};
+
+export const sentOtp = async (data) => {
+  try {
+    const response = await axiosInstance.post('/client/otp', data);
     console.log(response.data)
     return response.data;
   } catch (error) {

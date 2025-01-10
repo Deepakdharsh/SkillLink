@@ -1,12 +1,16 @@
-import {  Button} from "@material-tailwind/react";
+import {  Button, useSelect} from "@material-tailwind/react";
 import { useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { X, AlertCircle } from 'lucide-react';
 import axiosInstance from "../api/axiosInstance";
-import {createUser} from "../api/apiService"
+import {createUser, sentOtp} from "../api/apiService"
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "@/features/userSlice";
 
 
 export function SignUp() {
+  const dispatch=useDispatch()
+  const val = useSelector((state)=>state.user)
   const navigate=useNavigate()
   const [formData, setFormData] = useState({
       username: '',
@@ -56,8 +60,11 @@ export function SignUp() {
       
       if (validateForm()) {
         console.log('Form submitted:', formData);
-        const data=createUser(formData)
-        console.log(data)
+        dispatch(setUser(formData))
+        const data=sentOtp(formData)
+        navigate('/otp')
+        // console.log(data)
+        console.log(val)
       }
       
       setIsSubmitting(false);

@@ -1,6 +1,7 @@
 const express=require("express")
 const cookieParser=require("cookie-parser")
 const cors=require("cors")
+const session = require('express-session');
 const adminRoute=require("./routes/adminRoute")
 const clientRoute=require("./routes/clientRoute")
 const freelancerRoute=require("./routes/freelancerRoute")
@@ -16,15 +17,29 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization'],  // Allowed headers
     credentials: true 
 }))
+app.use(
+    session({
+      secret: process.env.SESSION_SECRET, 
+      resave: false,             
+      saveUninitialized: true,   
+      cookie: {
+        maxAge: 1000 * 60,  
+      },
+    })
+  );
 
-/* DATABASE=mongodb://127.0.0.1:27017/skillLink
-PORT=8000
-
-JWT_SECRET=my-ultra-secure-and-ultra-long-secret
-JWT_EXPIRES_IN=90d
-*/
 app.use("/admin",adminRoute)
 app.use("/client",clientRoute)
 app.use("/freelancer",freelancerRoute)
+
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+
+  res.status(err.status || 500).json({
+    success: false,
+    message: err.message || 'Internal Server Error',
+  });
+});
 
 module.exports=app;

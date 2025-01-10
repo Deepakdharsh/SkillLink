@@ -11,6 +11,7 @@ import PostTwo from "./pages/post-Job/PostTwo";
 import PostThree from "./pages/post-Job/PostThree";
 import PostFour from "./pages/post-Job/PostFour";
 import PostFive from "./pages/post-Job/PostFive";
+import Otp from "./pages/Otp";
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
         <Route path="sign-in" element={<SignIn />} />
         <Route path="sign-up" element={ <SignUp />} />
         </Route> 
+        <Route path="otp" element={ <Otp />} />
         <Route path="profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} /> 
         <Route path="/post-1" element={<PostOne/>} />
         <Route path="/post-2" element={<PostTwo/>} />

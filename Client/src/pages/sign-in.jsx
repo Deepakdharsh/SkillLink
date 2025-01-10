@@ -4,7 +4,7 @@ import { GoogleLogin ,useGoogleLogin } from '@react-oauth/google';
 import { useState } from "react";
 import axios from "axios"
 import { X, AlertCircle } from 'lucide-react';
-import {loginUser} from "../api/apiService"
+import {loginUser,googleSignIn} from "../api/apiService"
 
 
 export function SignIn() {
@@ -20,7 +20,7 @@ export function SignIn() {
         })
         console.log(res.data)
         const {email,given_name:name,picture,}=res.data
-        loginUser(res.data)
+        googleSignIn(res.data)
       } catch (error) {
         console.log(error)
       }
