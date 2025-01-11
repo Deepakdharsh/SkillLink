@@ -1,15 +1,17 @@
 import React, { useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import { Navigate, useNavigate } from 'react-router-dom'
 
 function ProtectedRoute({children}) {
-    // const {user}=useSelector(state=>state.userReducer)
-    const user=false
+     const data=useSelector((state)=>state.token)
+     console.log(data)
+    // const user=false
     const navigate=useNavigate()
     useEffect(()=>{
-        if(!user) navigate("/home/sign-in")
-    },[user,navigate])
-    console.log(user)
-  return user ? children : null
+        if(!data) navigate("/home/sign-in")
+    },[data,navigate])
+    console.log(data)
+  return data ? children : null
 }
 
 export default ProtectedRoute

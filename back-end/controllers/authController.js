@@ -9,15 +9,18 @@ const signToken=id=>{
 }
 
 exports.sendOtp=(req,res,next)=>{
-
+    // console.log('hello from the back-end')
+    // console.log(req.body)
     try {
         const {email}=req.body;
+        console.log('====================')
         console.log(email)
 
         if(!email) throw createError(503,"something went wrong")
 
         const otp = Math.floor(1000 + Math.random() * 9000); 
         req.session.otp=otp;
+        req.session.email=email;
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
@@ -43,12 +46,102 @@ exports.sendOtp=(req,res,next)=>{
       });
     
       res.status(201).json({
-        status:"success",
+        success:true,
       })
     } catch (error) {
         next(error)
     }
 }
+
+// exports.resetOtp=(req,res,next)=>{
+//     console.log('hello from the back-end')
+//     console.log(req.body)
+//     res.status(200).json({
+//         message:"hello from the back-end"
+//     })
+//     // try {
+//     //     // const {email}=req.body;
+//     //     const email=req.session.email
+//     //     console.log('====================')
+//     //     console.log(email)
+
+//     //     if(!email) throw createError(503,"something went wrong")
+
+//     //     const otp = Math.floor(1000 + Math.random() * 9000); 
+//     //     req.session.otp=otp;
+//     //     const transporter = nodemailer.createTransport({
+//     //         service: 'gmail',
+//     //         auth: {
+//     //           user: 'ddharshpr@gmail.com', 
+//     //           pass: 'aytumbzpqmzshddv',   
+//     //         },
+//     //     });
+    
+//     //     const mailOptions = {
+//     //     from: 'skillLink@gmail.com',     
+//     //     to: `${email}`,
+//     //     subject: 'Hello from Node.js!',   
+//     //     // text: 'hello', 
+//     //     html: `<h1>Your otp:${otp}</h1><p>Sent using <b>Nodemailer</b>!</p>`,
+//     //   };
+      
+//     //   // Step 3: Send the email
+//     //   transporter.sendMail(mailOptions, (error, info) => {
+//     //     if (error) {
+//     //       return console.error('Error:', error);
+//     //     }
+//     //     console.log('Email sent:', info.response);
+//     //   });
+    
+//     //   res.status(201).json({
+//     //     success:true,
+//     //   })
+//     // } catch (error) {
+//     //     next(error)
+//     // }
+// }
+
+// exports.sendOtp=(req,res,next)=>{
+
+//     try {
+//         const {email}=req.body;
+//         console.log(email)
+
+//         if(!email) throw createError(503,"something went wrong")
+
+//         const otp = Math.floor(1000 + Math.random() * 9000); 
+//         req.session.otp=otp;
+//         const transporter = nodemailer.createTransport({
+//             service: 'gmail',
+//             auth: {
+//               user: 'ddharshpr@gmail.com', 
+//               pass: 'aytumbzpqmzshddv',   
+//             },
+//         });
+    
+//         const mailOptions = {
+//         from: 'skillLink@gmail.com',     
+//         to: `${email}`,
+//         subject: 'Hello from Node.js!',   
+//         // text: 'hello', 
+//         html: `<h1>Your otp:${otp}</h1><p>Sent using <b>Nodemailer</b>!</p>`,
+//       };
+      
+//       // Step 3: Send the email
+//       transporter.sendMail(mailOptions, (error, info) => {
+//         if (error) {
+//           return console.error('Error:', error);
+//         }
+//         console.log('Email sent:', info.response);
+//       });
+    
+//       res.status(201).json({
+//         success:true,
+//       })
+//     } catch (error) {
+//         next(error)
+//     }
+// }
 
 exports.signUp=async(req,res,next)=>{
     try {
@@ -74,10 +167,33 @@ exports.signUp=async(req,res,next)=>{
         const token=signToken(newUser._id)
 
         res.status(201).json({
-            status:"success",
+            success:true,
             token,
             result:{
                 newUser
+            }
+        })
+        
+        
+    } catch (error) {
+        next(error)
+    }   
+}
+
+exports.setUserType=async(req,res,next)=>{
+    try {
+        const {role,email}=req.body
+        console.log( typeof req.body.role)
+        console.log( role)
+            
+        const user = await UserModel.findOneAndUpdate({email},{role},{new:true})
+
+        // if(user) throw createError(503,"User already exists")
+
+        res.status(201).json({
+            success:true,
+            result:{
+                user
             }
         })
         
@@ -106,7 +222,7 @@ exports.login=async(req,res,next)=>{
         const token = signToken(user._id)
 
         res.status(201).json({
-            status:"success",
+            success:true,
             token,
             result:{
                 user
@@ -141,7 +257,7 @@ exports.googleSignIn=async(req,res,next)=>{
          const token = signToken(newUser._id)
 
          return res.status(201).json({
-            status:"success",
+            success:true,
             token,
             result:{
                 user
@@ -153,7 +269,7 @@ exports.googleSignIn=async(req,res,next)=>{
             const token = signToken(user._id)
 
             return res.status(201).json({
-            status:"success",
+            success:true,
             token,
             result:{
                 user

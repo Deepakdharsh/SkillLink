@@ -1,9 +1,11 @@
-import { createUser } from '@/api/apiService';
+import { createUser, sentOtp } from '@/api/apiService';
+import { setToken } from '@/features/userSlice';
 import React, { useState, useRef, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 const Otp = () => {
+  const val=useSelector((state)=>state.userDetails)
   const data=useSelector((state)=>state.userDetails)
   const navigate=useNavigate() 
   const [otp, setOtp] = useState(['', '', '', '']);
@@ -11,6 +13,7 @@ const Otp = () => {
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const inputs = useRef([]);
+  const dispatch=useDispatch()
 
   useEffect(() => {
     if (timeLeft === 0) return;
@@ -45,11 +48,19 @@ const Otp = () => {
     }
   };
 
-  const resetTimer = () => {
+  const resetTimer = async (e) => {
+    e.preventDefault()
     setTimeLeft(60);
     setOtp(['', '', '', '']);
     setError('');
     inputs.current[0].focus();
+
+    const obj={
+      email:val.email
+    }
+    
+    const res=await sentOtp(obj)
+    // console.log(res)
   };
 
   const formatTime = (time) => {
@@ -58,7 +69,7 @@ const Otp = () => {
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
   };
 
-  const validateOTP = () => {
+  const validateOTP = (res) => {
     // Check if timer has expired
     if (timeLeft === 0) {
       setError('OTP has expired. Please request a new one.');
@@ -77,10 +88,17 @@ const Otp = () => {
       return false;
     }
 
+    if (res) {
+      setError(res);
+      setIsSubmitting(false)
+      setTimeLeft(0)
+      return false;
+    }
+
     return true;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setError('');
     setIsSubmitting(true);
 
@@ -91,9 +109,16 @@ const Otp = () => {
 
     const obj={...data}
     obj.otp=otp.join("")
-    createUser(obj)
+    const res = await createUser(obj)
+    console.log(res.token)
+    dispatch(setToken(res.token))
+    if(res.success){
+      navigate("/user-type")
+    }else{
+      validateOTP(res.message)
+    }
     // navigate("/home")
-    console.log(obj)
+    // console.log(obj)
 
   };
 

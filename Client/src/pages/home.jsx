@@ -1,4 +1,5 @@
 import React from "react";
+import routes from "@/routes";
 import {
   Card,
   CardBody,
@@ -11,7 +12,7 @@ import {
   Checkbox,
 } from "@material-tailwind/react";
 import { FingerPrintIcon, UsersIcon } from "@heroicons/react/24/solid";
-import { PageTitle, Footer } from "@/widgets/layout";
+import { PageTitle, Footer, Navbar } from "@/widgets/layout";
 import { FeatureCard, TeamCard } from "@/widgets/cards";
 import { featuresData, teamData, contactData } from "@/data";
 import { Outlet } from "react-router-dom";
@@ -19,6 +20,9 @@ import { Outlet } from "react-router-dom";
 export function Home() {
   return (
     <>
+      <div className="container absolute left-2/4 z-10 mx-auto -translate-x-2/4 p-4">
+            <Navbar routes={routes} />
+      </div>
       <div className="relative flex h-screen content-center items-center justify-center pt-16 pb-32 bg-black">
        <Outlet/>
         <div className="absolute top-0 h-full w-full bg-[url('/img/background-3.png')] bg-cover bg-center" />

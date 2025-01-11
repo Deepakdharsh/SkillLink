@@ -12,7 +12,7 @@ import {
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { googleLogout } from '@react-oauth/google';
 
-export function Navbar({ brandName, routes, action }) {
+export function Navbar({ brandName, action }) {
   const [openNav, setOpenNav] = React.useState(false);
 
   React.useEffect(() => {

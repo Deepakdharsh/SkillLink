@@ -10,7 +10,7 @@ import { setUser } from "@/features/userSlice";
 
 export function SignUp() {
   const dispatch=useDispatch()
-  const val = useSelector((state)=>state.user)
+  // const val = useSelector((state)=>state.userDetails.email)
   const navigate=useNavigate()
   const [formData, setFormData] = useState({
       username: '',
@@ -64,7 +64,6 @@ export function SignUp() {
         const data=sentOtp(formData)
         navigate('/otp')
         // console.log(data)
-        console.log(val)
       }
       
       setIsSubmitting(false);

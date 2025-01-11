@@ -12,6 +12,7 @@ import PostThree from "./pages/post-Job/PostThree";
 import PostFour from "./pages/post-Job/PostFour";
 import PostFive from "./pages/post-Job/PostFive";
 import Otp from "./pages/Otp";
+import UserType from "./pages/UserType";
 
 
 function App() {
@@ -19,12 +20,12 @@ function App() {
 
   return (
     <>
-    {!(pathname == '/sign-in' || pathname == '/sign-up') && (
+    {/* {!(pathname == '/sign-in' || pathname == '/sign-up') && (
         <div className="container absolute left-2/4 z-10 mx-auto -translate-x-2/4 p-4">
-          <Navbar routes={routes} />
+          <Navbar />
         </div>
       )
-      }
+      } */}
       <Routes>
         <Route index element={<Navigate to="/home" replace />}/>
         <Route path="/home" element={<Home />} >
@@ -32,6 +33,7 @@ function App() {
         <Route path="sign-up" element={ <SignUp />} />
         </Route> 
         <Route path="otp" element={ <Otp />} />
+        <Route path="user-type" element={ <UserType />} />
         <Route path="profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} /> 
         <Route path="/post-1" element={<PostOne/>} />
         <Route path="/post-2" element={<PostTwo/>} />

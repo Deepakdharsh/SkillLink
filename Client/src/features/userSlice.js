@@ -13,7 +13,8 @@ const userSlice=createSlice({
             state.userDetails=action.payload
         },
         setToken:(state,action)=>{
-            state.userDetails=action.payload
+            console.log(action.payload)
+            state.token=action.payload
         }
     }
 })

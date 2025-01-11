@@ -4,7 +4,7 @@ const axiosInstance = axios.create({
   baseURL: 'http://localhost:8000',
 //   timeout: 5000, // 5 seconds timeout
   withCredentials: true,  
-  headers: { 'Content-Type': 'application/json' },
+  // headers: { 'Content-Type': 'application/json' },
 });
 
 // axiosInstance.interceptors.request.use(
