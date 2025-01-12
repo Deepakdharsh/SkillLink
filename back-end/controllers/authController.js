@@ -147,8 +147,10 @@ exports.signUp=async(req,res,next)=>{
     try {
         const sessionOtp=req.session.otp;
         const {username,email,password,otp}=req.body
-        console.log( typeof req.body.otp)
-        console.log(typeof sessionOtp)
+        // console.log( typeof req.body.otp)
+        // console.log(typeof sessionOtp)
+
+        console.log(username,email,password)
         
         if(Number(otp)!==sessionOtp) throw createError(400,"Invaild otp")
 

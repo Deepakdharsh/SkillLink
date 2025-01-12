@@ -4,12 +4,12 @@ import { GoogleLogin ,useGoogleLogin } from '@react-oauth/google';
 import { useState } from "react";
 import axios from "axios"
 import { X, AlertCircle } from 'lucide-react';
-import {loginUser,googleSignIn} from "../api/apiService"
+import {loginUser,googleSignIn} from "../../api/apiService"
 import { useDispatch } from "react-redux";
 import { setToken } from "@/features/userSlice";
 
 
-export function SignIn() {
+export function AdminLogin() {
   const navigate=useNavigate()
   const dispatch=useDispatch()
 
@@ -104,14 +104,6 @@ export function SignIn() {
       };
   return (
     <section className="m-8 flex gap-4">
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="w-full lg:w-3/5 bg-white rounded-lg  shadow-lg p-6 relative flex justify-center ">
-        <button
-          className="absolute top-2 right-2 text-gray-600 hover:text-gray-800"
-          onClick={()=>navigate("/home")}
-        >
-          &times;
-        </button>
         <div className="w-full max-w-md mx-auto p-6 bg-white rounded-lg shadow-sm">
             <h1 className="text-3xl font-bold text-center mb-6">Sign In</h1>
             <p className="text-center text-gray-600 mb-8">Enter your email and password to Sign In.</p>
@@ -205,7 +197,7 @@ export function SignIn() {
               </div>
       
               <div className="space-y-4 mt-8">
-              <Button onClick={()=>login()} size="lg" color="white" className="flex items-center gap-2 justify-center shadow-md" fullWidth>
+              {/* <Button onClick={()=>login()} size="lg" color="white" className="flex items-center gap-2 justify-center shadow-md" fullWidth>
                   <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clipPath="url(#clip0_1156_824)">
                       <path d="M16.3442 8.18429C16.3442 7.64047 16.3001 7.09371 16.206 6.55872H8.66016V9.63937H12.9813C12.802 10.6329 12.2258 11.5119 11.3822 12.0704V14.0693H13.9602C15.4741 12.6759 16.3442 10.6182 16.3442 8.18429Z" fill="#4285F4" />
@@ -220,33 +212,31 @@ export function SignIn() {
                     </defs>
                   </svg>
                   <span>Sign in With Google</span>
-                  </Button>
+                  </Button> */}
 {/*             <Button size="lg" color="white" className="flex items-center gap-2 justify-center shadow-md" fullWidth>
               <img src="/img/twitter-logo.svg" height={24} width={24} alt="" />
               <span>Sign in With Twitter</span>
             </Button> */}
           </div>
-      
+      {/* 
               <p onClick={()=>navigate("/home/sign-up")} className="hover:cursor-pointer mt-6 text-center text-gray-600">
                 Already have an account?{' '}
                   Sign up
-              </p>
+              </p> */}
             </form>
           </div>
-      </div>
-    </div>
      
-      {/* <div className="w-2/5 h-full hidden lg:block">
+      {<div className="w-2/5 h-full hidden lg:block">
         <img
           src="/img/pattern.png"
           className="h-full w-full object-cover rounded-3xl"
         />
-      </div> */}
+      </div>}
 
     </section>
   );
 }
 
-export default SignIn;
+export default AdminLogin;
 
 

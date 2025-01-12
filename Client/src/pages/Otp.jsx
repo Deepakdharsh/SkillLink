@@ -111,8 +111,8 @@ const Otp = () => {
     obj.otp=otp.join("")
     const res = await createUser(obj)
     console.log(res.token)
-    dispatch(setToken(res.token))
     if(res.success){
+      dispatch(setToken(res.token))
       navigate("/user-type")
     }else{
       validateOTP(res.message)
