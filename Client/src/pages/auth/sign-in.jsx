@@ -4,7 +4,7 @@ import { GoogleLogin ,useGoogleLogin } from '@react-oauth/google';
 import { useState } from "react";
 import axios from "axios"
 import { X, AlertCircle } from 'lucide-react';
-import {loginUser,googleSignIn} from "../api/apiService"
+import {loginUser,googleSignIn} from "../../api/apiService"
 import { useDispatch } from "react-redux";
 import { setToken } from "@/features/userSlice";
 
@@ -12,6 +12,7 @@ import { setToken } from "@/features/userSlice";
 export function SignIn() {
   const navigate=useNavigate()
   const dispatch=useDispatch()
+  const [error,setError]=useState("")
 
   const login = useGoogleLogin({
     onSuccess: async tokenResponse =>{
@@ -25,7 +26,9 @@ export function SignIn() {
         const {email,given_name:name,picture,}=res.data
         const data=await googleSignIn(res.data)
         console.log(data.success)
+        console.log(data.token)
         if(data.success){
+          localStorage.setItem("jwtToken", data.token);
           dispatch(setToken(data.token))
           navigate("/home")
         }
@@ -38,15 +41,15 @@ export function SignIn() {
   });
   
   const [formData, setFormData] = useState({
-        email: '',
-        password: '',
-        agreeToTerms: false
-      });
-    
-      const [errors, setErrors] = useState({});
-      const [isSubmitting, setIsSubmitting] = useState(false);
-    
-      const validateForm = () => {
+    email: '',
+    password: '',
+    agreeToTerms: false
+  });
+  
+  const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  const validateForm = () => {
         const newErrors = {};
         
         // Username validation
@@ -70,9 +73,9 @@ export function SignIn() {
         }
     
         // Terms validation
-        if (!formData.agreeToTerms) {
-          newErrors.terms = 'You must agree to the Terms and Conditions';
-        }
+        // if (!formData.agreeToTerms) {
+        //   newErrors.terms = 'You must agree to the Terms and Conditions';
+        // }
     
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
@@ -86,9 +89,12 @@ export function SignIn() {
           console.log('Form submitted:', formData);
           const data=await loginUser(formData)
           console.log(data)
-          if(data.token){
+          if(data?.success){
+            localStorage.setItem('jwtToken', data.token)
             dispatch(setToken(data.token))
             navigate("/home")
+          }else{
+            setError("invaild credentials")
           }
         }
         
@@ -170,23 +176,14 @@ export function SignIn() {
                   </p>
                 )}
               </div>
-      
-              <div className="flex items-center">
-                <input
-                  type="checkbox"
-                  name="agreeToTerms"
-                  checked={formData.agreeToTerms}
-                  onChange={handleChange}
-                  className="h-4 w-4 text-blue-600 rounded border-gray-300"
-                />
-                <label className="ml-2 text-sm text-gray-600">
-                  I agree to the <a href="#" className="text-black underline">Terms and Conditions</a>
+                <label className="ml-2 mt-10 text-sm text-gray-600">
+                 <Link to="/forgot-password" className="text-black underline">Forgot password?</Link>
                 </label>
-              </div>
-              {errors.terms && (
+              {/* </div> */}
+              {error && (
                 <p className="text-sm text-red-500 flex items-center">
                   <AlertCircle className="w-4 h-4 mr-1" />
-                  {errors.terms}
+                  {error}
                 </p>
               )}
       
@@ -228,7 +225,7 @@ export function SignIn() {
           </div>
       
               <p onClick={()=>navigate("/home/sign-up")} className="hover:cursor-pointer mt-6 text-center text-gray-600">
-                Already have an account?{' '}
+                Don't have an account?{' '}
                   Sign up
               </p>
             </form>

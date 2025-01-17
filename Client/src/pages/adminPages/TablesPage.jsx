@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Routes, Route, useLocation, Link } from 'react-router-dom';
-import { LayoutDashboard as DashboardIcon, Table, Receipt, Languages, Bell, User, LogIn, UserPlus } from 'lucide-react';
+import { LayoutDashboard as DashboardIcon, Table, Receipt, Languages, Bell, User, LogIn, UserPlus, Users } from 'lucide-react';
+import axiosInstance from '@/api/axiosInstance';
+import { getuser, listUsers } from '@/api/apiService';
 
 const TablesPage = () => {
     const authorsData = [
@@ -47,6 +49,20 @@ const TablesPage = () => {
         employed: '14/09/20'
       },
     ];
+    const [users,setUsers]=useState([])
+
+    useEffect(()=>{
+      async function getData(){
+        const data=await listUsers()
+        setUsers(data?.result?.users)
+        console.log(data.result.users)
+      };
+      getData()
+    },[])
+
+    // console.log(users[0]?.name)
+
+    users.map((val,i)=>console.log(val.name))
   
     return (
       <div className="p-8">
@@ -73,35 +89,35 @@ const TablesPage = () => {
                 </tr>
               </thead>
               <tbody>
-                {authorsData.map((author, index) => (
+                {users.map((user, index) => (
                   <tr key={index} className="border-b">
                     <td className="py-4">
                       <div className="flex items-center gap-3">
                         <img 
                           src="/api/placeholder/40/40" 
-                          alt={author.name} 
+                          alt={user.name} 
                           className="w-10 h-10 rounded-full"
                         />
                         <div>
-                          <p className="font-semibold">{author.name}</p>
-                          <p className="text-sm text-gray-500">{author.email}</p>
+                          <p className="font-semibold">{user.name}</p>
+                          <p className="text-sm text-gray-500">{user.email}</p>
                         </div>
                       </div>
                     </td>
                     <td className="py-4">
-                      <p className="font-semibold">{author.function.role}</p>
-                      <p className="text-sm text-gray-500">{author.function.dept}</p>
+                      <p className="font-semibold">{user.role}</p>
+                      {/* <p className="text-sm text-gray-500">{user.function.dept}</p> */}
                     </td>
                     <td className="py-4">
                       <span className={`px-2 py-1 rounded-full text-xs ${
-                        author.status === 'ONLINE' 
+                        user.status === 'ONLINE' 
                           ? 'bg-green-100 text-green-800' 
                           : 'bg-gray-100 text-gray-800'
                       }`}>
-                        {author.status}
+                        {user.status}
                       </span>
                     </td>
-                    <td className="py-4 text-sm text-gray-500">{author.employed}</td>
+                    <td className="py-4 text-sm text-gray-500">{user.employed}</td>
                     <td className="py-4">
                       <button className="text-blue-500 hover:text-blue-700">
                         Edit

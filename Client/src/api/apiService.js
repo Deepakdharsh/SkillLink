@@ -91,3 +91,97 @@ export const SetUserType = async (data) => {
     }
   }
 };
+
+export const forgotPassword = async (data) => {
+  console.log(data)
+  try {
+    const response = await axiosInstance.post('/client/forgot-password', data);
+    console.log(response.data)
+    return response.data;
+  } catch (error) {
+    if(error.response){
+      console.error('Error :', error.response.data);
+      return error.response.data
+    }else{
+      console.error('Error:',error.message)
+    }
+  }
+};
+
+
+export const verifyForgotPassword = async (data) => {
+  try {
+    const response = await axiosInstance.post('/client/verify-otp', data);
+    console.log(response.data)
+    return response.data;
+  } catch (error) {
+    if(error.response){
+      console.error('Error :', error.response.data);
+      return error.response.data
+    }else{
+      console.error('Error:',error.message)
+    }
+  }
+};
+
+export const getuser = async () => {
+  try {
+    const response = await axiosInstance.get('/client/get-user');
+    return response.data;
+  } catch (error) {
+    if(error.response){
+      console.error('Error :', error.response.data);
+      return error.response.data
+    }else{
+      console.error('Error:',error.message)
+    }
+  }
+};
+
+export const resetPassword = async (data) => {
+  try {
+    const response = await axiosInstance.post('/client/reset-password', data);
+    console.log(response.data)
+    return response.data;
+  } catch (error) {
+    if(error.response){
+      console.error('Error :', error.response.data);
+      return error.response.data
+    }else{
+      console.error('Error:',error.message)
+    }
+  }
+};
+
+export const listUsers = async () => {
+  try {
+    const response = await axiosInstance.get('/client/list-users' );
+    return response.data;
+  } catch (error) {
+    if(error.response){
+      console.error('Error :', error.response.data);
+      return error.response.data
+    }else{
+      console.error('Error:',error.message)
+    }
+  }
+};
+
+export const upload = async (data) => {
+  console.log(data)
+  try {
+    const response = await axiosInstance.post('/client/upload',data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      }
+    });
+    return response.data;
+  } catch (error) {
+    if(error.response){
+      console.error('Error :', error.response.data);
+      return error.response.data
+    }else{
+      console.error('Error:',error.message)
+    }
+  }
+};

@@ -79,9 +79,9 @@ export function Footer({ title, description, socials, menus, copyright }) {
 }
 
 Footer.defaultProps = {
-  title: "Material Tailwind",
+  title: "SkillLink offical",
   description:
-    "Easy to use React components for Tailwind CSS and Material Design.",
+    "Connect with top freelancers and find the best projects for your skills.",
   socials: [
     {
       color: "gray",
@@ -108,15 +108,15 @@ Footer.defaultProps = {
     {
       name: "useful links",
       items: [
-        { name: "About Us", path: "https://www.creative-tim.com/presentation" },
-        { name: "Blog", path: "https://www.creative-tim.com/blog" },
+        { name: "About Us", path: "/home" },
+        { name: "Find Work", path: "/home" },
         {
-          name: "Github",
-          path: "https://www.github.com/creativetimofficial/material-tailwind?ref=mtk",
+          name: "Hire Talent",
+          path: "/home",
         },
         {
-          name: "Free Products",
-          path: "https://www.creative-tim.com/templates/free?ref=mtk",
+          name: "Pricing Plans",
+          path: "/home",
         },
       ],
     },
@@ -124,27 +124,27 @@ Footer.defaultProps = {
       name: "other resources",
       items: [
         {
-          name: "MIT License",
-          path: "https://github.com/creativetimofficial/material-tailwind/blob/main/LICENSE.md?ref=mtk",
+          name: "Terms of Service",
+          path: "/home",
         },
         {
-          name: "Contribute",
-          path: "https://github.com/creativetimofficial/material-tailwind/blob/main/CONTRIBUTING.md?ref=mtk",
+          name: "Privacy Policy",
+          path: "/home",
         },
         {
-          name: "Change Log",
-          path: "https://github.com/creativetimofficial/material-tailwind/blob/main/CHANGELOG.md?ref=mtk",
+          name: "Blog",
+          path: "/home",
         },
         {
-          name: "Contact Us",
-          path: "https://creative-tim.com/contact-us?ref=mtk",
+          name: "Help Center",
+          path: "/home",
         },
       ],
     },
   ],
   copyright: (
     <>
-      Copyright © {year} Material Tailwind by{" "}
+      Copyright © {year} SkillLink {"Empowering freelancers worldwide."}
       <a
         href="https://www.creative-tim.com?ref=mtk"
         target="_blank"

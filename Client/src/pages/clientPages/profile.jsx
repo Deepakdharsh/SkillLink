@@ -4,9 +4,43 @@ import {
   BriefcaseIcon,
   BuildingLibraryIcon,
 } from "@heroicons/react/24/solid";
+import pic from "../../../public/img/profilePlaceholderImg.png"
 import { Footer } from "@/widgets/layout";
+import { useEffect, useState } from "react";
+import { getuser } from "@/api/apiService";
+import { Link } from "react-router-dom";
 
 export function Profile() {
+  const [name,setName]=useState("")
+  const [email,setEmail]=useState("")
+  const [position,setPosition]=useState("")
+  const [degrees,setDegrees]=useState([])
+  const [bio,setBio]=useState("")
+  const [photo,setPhoto]=useState("")
+  // const [photo, setProfile] = useState({
+  //     name: '',
+  //     email: '',
+  //     // password: '',
+  //     position: '',
+  //     degrees: [],
+  //     bio:"",
+  //     photo:""
+  //   });
+  useEffect(()=>{
+   async function getCurrentUser(){
+     const res=await getuser()
+     console.log(res)
+     setName(res.result.user.name)
+     setEmail(res.result.user.email)
+     setPosition(res.result.user.position)
+     setDegrees(res.result.user.degrees)
+     setBio(res.result.user.bio)
+     setPhoto(res.result.user.photo)
+    }
+
+    getCurrentUser()
+    // console.log("hello from the useEffect")
+  },[])
   return (
     <>
       <section className="relative block h-[50vh]">
@@ -20,7 +54,7 @@ export function Profile() {
               <div className="relative flex gap-6 items-start">
                 <div className="-mt-20 w-40">
                   <Avatar
-                    src="/img/team-5.png"
+                    src={photo?`http://localhost:8000/images/${photo}`:pic}
                     alt="Profile picture"
                     variant="circular"
                     className="h-full w-full"
@@ -28,15 +62,18 @@ export function Profile() {
                 </div>
                 <div className="flex flex-col mt-2">
                   <Typography variant="h4" color="blue-gray">
-                    Jenna Stones
+                    {/* {profile.name} */}
+                    {name}
                   </Typography>
-                  <Typography variant="paragraph" color="gray" className="!mt-0 font-normal">jena@mail.com</Typography>
+                  <Typography variant="paragraph" color="gray" className="!mt-0 font-normal">{email}</Typography>
                 </div>
               </div>
 
               <div className="mt-10 mb-10 flex lg:flex-col justify-between items-center lg:justify-end lg:mb-0 lg:px-4 flex-wrap lg:-mt-5">
-                <Button className="bg-gray-900 w-fit lg:ml-auto">Conntect</Button>
-                <div className="flex justify-start py-4 pt-8 lg:pt-4">
+                <Link to="/profile/edit">
+                <Button className="bg-gray-900 w-fit lg:ml-auto">Edit Profile</Button>
+                </Link>
+               {/*  <div className="flex justify-start py-4 pt-8 lg:pt-4">
                   <div className="mr-4 p-3 text-center">
                     <Typography
                       variant="lead"
@@ -82,12 +119,12 @@ export function Profile() {
                       Comments
                     </Typography>
                   </div>
-                </div>
+                </div> */}
 
               </div>
             </div>
             <div className="-mt-4 container space-y-2">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 mt-10">
                 <MapPinIcon className="-mt-px h-4 w-4 text-blue-gray-500" />
                 <Typography className="font-medium text-blue-gray-500">
                   Los Angeles, California
@@ -96,24 +133,20 @@ export function Profile() {
               <div className="flex items-center gap-2">
                 <BriefcaseIcon className="-mt-px h-4 w-4 text-blue-gray-500" />
                 <Typography className="font-medium text-blue-gray-500">
-                  Solution Manager - Creative Tim Officer
+                  {position?position:""}
                 </Typography>
               </div>
               <div className="flex items-center gap-2">
                 <BuildingLibraryIcon className="-mt-px h-4 w-4 text-blue-gray-500" />
                 <Typography className="font-medium text-blue-gray-500">
-                  University of Computer Science
+                  { degrees?degrees:""}
                 </Typography>
               </div>
             </div>
             <div className="mb-10 py-6">
               <div className="flex w-full flex-col items-start lg:w-1/2">
                 <Typography className="mb-6 font-normal text-blue-gray-500">
-                  An artist of considerable range, Jenna the name taken by
-                  Melbourne-raised, Brooklyn-based Nick Murphy writes,
-                  performs and records all of his own music, giving it a
-                  warm, intimate feel with a solid groove structure. An
-                  artist of considerable range.
+                  {bio?bio:""}
                 </Typography>
                 <Button variant="text">Show more</Button>
               </div>

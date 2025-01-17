@@ -2,9 +2,10 @@ import {  Button, useSelect} from "@material-tailwind/react";
 import { useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { X, AlertCircle } from 'lucide-react';
-import axiosInstance from "../api/axiosInstance";
+import axiosInstance from "../../api/axiosInstance";
 import { GoogleLogin ,useGoogleLogin } from '@react-oauth/google';
-import {createUser, googleSignIn, sentOtp} from "../api/apiService"
+import {createUser, googleSignIn, sentOtp} from "../../api/apiService"
+// import {createUser, googleSignIn, sentOtp} from "../api/apiService"
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "@/features/userSlice";
 

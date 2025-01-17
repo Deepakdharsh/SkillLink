@@ -5,14 +5,14 @@ const SideBar = () => {
     const location = useLocation();
     
     const navItems = [
-      { icon: <LayoutDashboard size={20} />, label: 'Dashboard', path: '/admin-dashboard' },
-      { icon: <Table size={20} />, label: 'Tables', path: '/admin-table' },
-      { icon: <Receipt size={20} />, label: 'Billing', path: '/billing' },
-      { icon: <Languages size={20} />, label: 'RTL', path: '/rtl' },
+      { icon: <LayoutDashboard size={20} />, label: 'Dashboard', path: '/admin/dashboard' },
+      { icon: <Table size={20} />, label: 'Tables', path: '/admin/table' },
+      // { icon: <Receipt size={20} />, label: 'Billing', path: '/billing' },
+      // { icon: <Languages size={20} />, label: 'RTL', path: '/rtl' },
       { icon: <Bell size={20} />, label: 'Notifications', path: '/notifications' },
-      { icon: <User size={20} />, label: 'Profile', path: '/admin-profile' },
-      { icon: <LogIn size={20} />, label: 'Sign In', path: '/signin' },
-      { icon: <UserPlus size={20} />, label: 'Sign Up', path: '/signup' },
+      { icon: <User size={20} />, label: 'Profile', path: '/admin/profile' },
+      // { icon: <LogIn size={20} />, label: 'Sign In', path: '/signin' },
+      // { icon: <UserPlus size={20} />, label: 'Sign Up', path: '/signup' },
     ];
   
     return (
@@ -21,7 +21,7 @@ const SideBar = () => {
           <div className="p-2 bg-white/10 rounded">
             <img src="/api/placeholder/24/24" alt="logo" className="w-6 h-6" />
           </div>
-          <h1 className="text-lg font-medium">Material Dashboard 2</h1>
+          <h1 className="text-lg font-medium">Admin Dashboard</h1>
         </div>
   
         <nav className="space-y-2">
@@ -41,9 +41,9 @@ const SideBar = () => {
           ))}
         </nav>
   
-        <button className="w-full mt-8 bg-blue-500 text-white py-3 rounded-lg">
+        {/* <button className="w-full mt-8 bg-blue-500 text-white py-3 rounded-lg">
           UPGRADE TO PRO
-        </button>
+        </button> */}
       </div>
     );
 };

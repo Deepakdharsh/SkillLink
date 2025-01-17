@@ -112,6 +112,7 @@ const Otp = () => {
     const res = await createUser(obj)
     console.log(res.token)
     if(res.success){
+      localStorage.setItem("jwtToken", res.token);
       dispatch(setToken(res.token))
       navigate("/user-type")
     }else{

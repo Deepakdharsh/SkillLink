@@ -1,121 +1,130 @@
-import React from 'react';
-import { Routes, Route, useLocation, Link } from 'react-router-dom';
-import { LayoutDashboard as DashboardIcon, Table, Receipt, Languages, Bell, User, LogIn, UserPlus } from 'lucide-react';
+import React, { useState } from 'react';
+import { Camera, Mail, Phone, MapPin, Building, Globe } from 'lucide-react';
 
 const ProfilePage = () => {
-    return (
-      <div className="p-8">
-        <div className="flex items-center gap-2 text-gray-500 mb-2">
-          <Link to="/" className="hover:text-gray-700">
-            <DashboardIcon size={16} />
-          </Link>
-          <span>/</span>
-          <span>Profile</span>
-        </div>
-        <h1 className="text-2xl font-semibold mb-8">Profile</h1>
-  
-        <div className="relative">
-          <img 
-            src="/api/placeholder/1200/300" 
-            alt="Cover" 
-            className="w-full h-64 object-cover rounded-xl"
-          />
-          <div className="absolute -bottom-16 left-8">
-            <img 
-              src="/api/placeholder/128/128" 
-              alt="Profile" 
-              className="w-32 h-32 rounded-full border-4 border-white"
-            />
+  const [profileData] = useState({
+    name: 'John Doe',
+    role: 'Senior Administrator',
+    email: 'john.doe@example.com',
+    phone: '+1 (555) 123-4567',
+    location: 'New York, USA',
+    department: 'IT Administration',
+    website: 'www.johndoe.com'
+  });
+
+  return (
+    <div className="ml-64 min-h-screen bg-gray-100 p-4 lg:p-8">
+      {/* Header Section */}
+      <div className="mb-8">
+        <h1 className="text-2xl font-bold text-gray-800">Profile</h1>
+        <p className="text-gray-600">Manage your profile information</p>
+      </div>
+
+      {/* Profile Grid */}
+      <div className="grid gap-6 lg:grid-cols-3">
+        {/* Profile Card */}
+        <div className="rounded-lg bg-white p-6 shadow-md lg:col-span-1">
+          <div className="flex flex-col items-center">
+            <div className="relative">
+              <img
+                src="/api/placeholder/120/120"
+                alt="Profile"
+                className="h-32 w-32 rounded-full object-cover"
+              />
+              <button className="absolute bottom-0 right-0 rounded-full bg-blue-500 p-2 text-white hover:bg-blue-600">
+                <Camera size={16} />
+              </button>
+            </div>
+            <h2 className="mt-4 text-xl font-semibold">{profileData.name}</h2>
+            <p className="text-gray-600">{profileData.role}</p>
           </div>
         </div>
-  
-        <div className="mt-20 grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-1">
-            <div className="bg-white rounded-xl shadow-sm p-6">
-              <div className="flex items-center gap-4 mb-6">
-                <h2 className="text-xl font-semibold">Platform Settings</h2>
+
+        {/* Profile Details */}
+        <div className="rounded-lg bg-white shadow-md lg:col-span-2">
+          <div className="border-b border-gray-200 p-6">
+            <h2 className="text-xl font-semibold text-gray-800">Profile Information</h2>
+          </div>
+          <div className="p-6">
+            <div className="grid gap-6 md:grid-cols-2">
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-gray-600">
+                  <Mail size={16} />
+                  <span className="text-sm font-medium">Email</span>
+                </div>
+                <p className="text-gray-800">{profileData.email}</p>
               </div>
-              <div className="space-y-4">
-                <h3 className="text-sm font-medium text-gray-500">ACCOUNT</h3>
-                <div className="flex items-center justify-between">
-                  <span>Email me when someone follows me</span>
-                  <div className="w-12 h-6 bg-blue-500 rounded-full relative cursor-pointer">
-                    <div className="absolute right-1 top-1 w-4 h-4 bg-white rounded-full"></div>
-                  </div>
+
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-gray-600">
+                  <Phone size={16} />
+                  <span className="text-sm font-medium">Phone</span>
                 </div>
-                <div className="flex items-center justify-between">
-                  <span>Email me when someone answers my post</span>
-                  <div className="w-12 h-6 bg-gray-200 rounded-full relative cursor-pointer">
-                    <div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full"></div>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span>Email me when someone mentions me</span>
-                  <div className="w-12 h-6 bg-blue-500 rounded-full relative cursor-pointer">
-                    <div className="absolute right-1 top-1 w-4 h-4 bg-white rounded-full"></div>
-                  </div>
-                </div>
+                <p className="text-gray-800">{profileData.phone}</p>
               </div>
+
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-gray-600">
+                  <MapPin size={16} />
+                  <span className="text-sm font-medium">Location</span>
+                </div>
+                <p className="text-gray-800">{profileData.location}</p>
+              </div>
+
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-gray-600">
+                  <Building size={16} />
+                  <span className="text-sm font-medium">Department</span>
+                </div>
+                <p className="text-gray-800">{profileData.department}</p>
+              </div>
+
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-gray-600">
+                  <Globe size={16} />
+                  <span className="text-sm font-medium">Website</span>
+                </div>
+                <p className="text-gray-800">{profileData.website}</p>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="mt-8 flex flex-wrap gap-4">
+              <button className="rounded-lg bg-blue-500 px-6 py-2 text-white hover:bg-blue-600">
+                Edit Profile
+              </button>
+              <button className="rounded-lg border border-gray-300 px-6 py-2 text-gray-700 hover:bg-gray-50">
+                Change Password
+              </button>
             </div>
           </div>
-  
-          <div className="lg:col-span-2">
-            <div className="bg-white rounded-xl shadow-sm p-6">
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-semibold">Profile Information</h2>
-                <button className="p-2 text-gray-500 hover:text-gray-700">
-                  <User size={20} />
-                </button>
-              </div>
-              <p className="text-gray-600 mb-6">
-                Hi, I'm Alec Thompson, Decisions: If you can't decide, the answer is no. 
-                If two equally difficult paths, choose the one more painful in the short term 
-                (pain avoidance is creating an illusion of equality).
-              </p>
-              <div className="space-y-4">
-                <div>
-                  <span className="font-medium">Full Name: </span>
-                  <span className="text-gray-600">Alec M. Thompson</span>
-                </div>
-                <div>
-                  <span className="font-medium">Mobile: </span>
-                  <span className="text-gray-600">(44) 123 1234 123</span>
-                </div>
-              </div>
-            </div>
-  
-            <div className="bg-white rounded-xl shadow-sm p-6 mt-6">
-              <h2 className="text-xl font-semibold mb-6">Conversations</h2>
-              <div className="space-y-4">
-                {[
-                  { name: 'Sophie B.', message: 'Hi! I need more information..' },
-                  { name: 'Anne Marie', message: 'Awesome work, can you..' },
-                  { name: 'Ivanna', message: 'About files I can..' },
-                ].map((chat, index) => (
-                  <div key={index} className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <img 
-                        src="/api/placeholder/40/40" 
-                        alt={chat.name} 
-                        className="w-10 h-10 rounded-full"
-                      />
-                      <div>
-                        <p className="font-semibold">{chat.name}</p>
-                        <p className="text-sm text-gray-500">{chat.message}</p>
-                      </div>
-                    </div>
-                    <button className="text-blue-500 hover:text-blue-700">
-                      REPLY
-                    </button>
+        </div>
+
+        {/* Activity Card */}
+        <div className="rounded-lg bg-white shadow-md lg:col-span-3">
+          <div className="border-b border-gray-200 p-6">
+            <h2 className="text-xl font-semibold text-gray-800">Recent Activity</h2>
+          </div>
+          <div className="p-6">
+            <div className="space-y-4">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="flex items-start gap-4 border-b border-gray-200 pb-4 last:border-0">
+                  <div className="h-10 w-10 rounded-full bg-blue-100 p-2">
+                    <img src="/api/placeholder/32/32" alt="Activity" className="h-6 w-6" />
                   </div>
-                ))}
-              </div>
+                  <div>
+                    <h3 className="font-medium text-gray-800">System Update Completed</h3>
+                    <p className="text-sm text-gray-600">Updated the system configuration for better performance</p>
+                    <span className="mt-1 text-xs text-gray-500">2 hours ago</span>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </div>
-    );
+    </div>
+  );
 };
 
-export default  ProfilePage
-  
+export default ProfilePage;

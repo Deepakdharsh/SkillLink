@@ -21,6 +21,11 @@ export function Navbar({ brandName, action }) {
       () => window.innerWidth >= 960 && setOpenNav(false)
     );
   }, []);
+  function handleLogout(){
+    console.log("hello from logout")
+    googleLogout()
+    localStorage.removeItem('jwtToken')
+  }
 
   const navList = (
     <ul className="mb-4 mt-2 flex flex-col gap-2 text-inherit lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
@@ -89,8 +94,8 @@ export function Navbar({ brandName, action }) {
         </Link>
         <div className="hidden lg:block ml-[91px] ">{navList}</div>
         <div className="hidden gap-2 lg:flex">
-            <Button onClick={()=>googleLogout()} variant="text" size="sm" color="white" fullWidth>
-              Profile
+            <Button onClick={()=>handleLogout()} variant="text" size="sm" color="white" fullWidth>
+              logout
             </Button>
           {React.cloneElement(action, {
             className: "hidden lg:inline-block",

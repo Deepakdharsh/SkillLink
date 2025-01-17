@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
 import { ArrowLeft, ArrowRight, Fingerprint } from 'lucide-react';
-import pic from "../../public/img/pexels-mikhail-nilov-7534742.jpg"
-// import pic from "../../public/img/pexels-mikhail-nilov-7534742.jpg"
+import pic from "../../../public/img/pexels-mikhail-nilov-7534742.jpg"
+import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { forgotPassword } from '@/api/apiService';
+import { useDispatch } from 'react-redux';
+import { setForgotEmail, setUser } from '@/features/userSlice';
 
 const ForgotPassword = () => {
+  const dispatch=useDispatch()
+  const navigate=useNavigate()
   const [email, setEmail] = useState('');
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -17,9 +22,19 @@ const ForgotPassword = () => {
     // Add more testimonials as needed
   ];
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle password reset logic
+    const obj={
+      email
+    }
+
+    const res= await forgotPassword(obj)
+    console.log(res)
+    if(res.success){
+
+      dispatch(setForgotEmail(email))
+      navigate("/forgot-password/otp")
+    }
   };
 
   return (
@@ -53,17 +68,17 @@ const ForgotPassword = () => {
               type="submit"
               className="w-full bg-gray-900 text-white py-2 px-4 rounded-md hover:bg-gray-800 transition-colors"
             >
-              Reset password
+              verify email
             </button>
           </form>
           
-          <button
+          <Link
             className="mt-6 flex items-center text-gray-600 hover:text-gray-900"
             onClick={() => window.history.back()}
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to log in
-          </button>
+          </Link>
         </div>
       </div>
 

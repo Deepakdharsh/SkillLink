@@ -33,16 +33,19 @@ const UserSchema=new mongoose.Schema({
     Skills:{
         type:[String]
     },
-    isBlocked:Boolean
+    isBlocked:Boolean,
+    position:String,
+    degree:[String],
+    bio:String
 },{timestamps:true})
 
 UserSchema.pre("save",async function(next){
   if(!this.isModified("password")) return next()
    
   this.password=await bcrypt.hash(this.password,12)
-  console.log("=====================")
-  console.log(this.password)
-  console.log("=====================")
+//   console.log("=====================")
+//   console.log(this.password)
+//   console.log("=====================")
 
   next()
 
