@@ -8,7 +8,8 @@ import {createUser, googleSignIn, sentOtp} from "../../api/apiService"
 // import {createUser, googleSignIn, sentOtp} from "../api/apiService"
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "@/features/userSlice";
-
+import {  toast } from 'react-toastify';
+import axios from "axios";
 
 export function SignUp() {
   const dispatch=useDispatch()
@@ -31,7 +32,16 @@ export function SignUp() {
           })
           console.log(res.data)
           const {email,given_name:name,picture,}=res.data
-          googleSignIn(res.data)
+          const data=await googleSignIn(res.data)
+          if(data.success){
+            localStorage.setItem("jwtToken", data.token);
+            dispatch(setToken(data.token))
+            navigate("/home")
+            toast("successfully loggedIn",{
+                position: "top-center",
+                autoClose: 3000,
+            })
+          }
         } catch (error) {
           console.log(error)
         }

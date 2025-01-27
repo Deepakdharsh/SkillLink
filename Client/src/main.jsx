@@ -5,6 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 import "../public/css/tailwind.css";
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { Provider } from "react-redux";
+import 'react-image-crop/dist/ReactCrop.css'
 import store from "./store";
 
 

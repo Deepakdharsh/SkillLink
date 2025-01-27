@@ -251,6 +251,36 @@ exports.login=async(req,res,next)=>{
     }
 }
 
+///
+exports.logout=async(req,res,next)=>{
+    console.log("ssssss")
+    try {
+        const email=req.email
+        // console.log(req.body)
+        if(!email){
+            throw  createError(400,"email not found")
+        }
+
+        const user = await UserModel.findOne({email}).select("+password")
+        console.log(user)
+        // const match = await bcrypt.compare(password,user.password)
+
+        if(!user){
+         throw  createError(401,"user not found")
+        }
+        
+        res.clearCookie("token")
+
+        res.status(201).json({
+            success:true,
+            message:"logout successfull",
+        })
+
+    } catch (error) {
+        next(error)
+    }
+}
+
 exports.googleSignIn=async(req,res,next)=>{
     try {
         const {email,given_name:name,sub:googleID,picture:photo}=req.body
@@ -315,9 +345,10 @@ exports.googleSignIn=async(req,res,next)=>{
 }
 
 exports.protected=async(req,res,next)=>{
+    console.log("protected")
    try {
      const token=req.cookies.token
- 
+        console.log(token)
      if(!token){
         return createError(401,"your are not logged-In")
      }
@@ -499,8 +530,10 @@ exports.getUser=async(req,res,next)=>{
 }
 
 exports.listUsers=async(req,res,next)=>{
+    console.log("request")
     try {
         const users=await UserModel.find()
+        console.log(users)
         if(!users) throw createError(404,"found no users yet")
         res.status(200).json({
             success:true,
@@ -541,7 +574,7 @@ exports.deleteUser=async(req,res,next)=>{
     
         const deletedUser=await UserModel.findByIdAndDelete({_id:id})
     
-        res.json(200).json({
+        res.status(200).json({
             success:true,
             reult:{
                 deletedUser
@@ -587,5 +620,23 @@ exports.upload=async(req,res,next)=>{
     } catch (error) {
         console.log(error)
         // next(error)
+    }
+}
+
+exports.setLocation=async(req,res,next)=>{
+    try {
+        console.log(req.body)
+        const {data}=req.body
+        if(!data) throw createError(400,"something went wrong")
+
+        const user=await UserModel.findOneAndUpdate({email:req.email},{location:data})
+        res.status(200).json({
+            success:true,
+            reult:{
+                deletedUser
+            }
+        })
+    } catch (error) {
+        next(error)
     }
 }

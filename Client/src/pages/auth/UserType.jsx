@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SetUserType } from '@/api/apiService';
 import { setToken, setUser } from '@/features/userSlice';
 import { useNavigate } from 'react-router-dom';
+import {  toast } from 'react-toastify';
 
 const UserType = () => {
   const [selectedOption, setSelectedOption] = useState('');
@@ -28,8 +29,13 @@ const UserType = () => {
     const res=await SetUserType(obj)
     dispatch(setUser(res.result))
     console.log(res.result)
-    if(res.success) navigate("/home")
-
+    if(res.success) {
+      navigate("/home")
+      toast("successfully loggedIn",{
+          position: "top-center",
+          autoClose: 3000,
+      })
+    }
   };
 
   return (

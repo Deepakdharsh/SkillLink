@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import routes from "@/routes";
 import {
   Card,
@@ -16,12 +16,61 @@ import { PageTitle, Footer, Navbar } from "@/widgets/layout";
 import { FeatureCard, TeamCard } from "@/widgets/cards";
 import { featuresData, teamData, contactData } from "@/data";
 import { Outlet } from "react-router-dom";
+import { getuser, setLocation } from "@/api/apiService";
 
 export function Home() {
+  const [ip,setIp]=useState("")
+  const [loc,setLoc]=useState("")
+  const [clientOrFreelancer,setClientOrFreelancer]=useState("Client")
+
+  const fetchcords=async()=>{
+    try {
+        const res=await fetch("https://api.ipify.org")
+        const iptext = await res.text()
+        console.log(iptext)
+        setIp(iptext)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const fetchlocation=async()=>{
+    try {
+        const res=await fetch(`http://ip-api.com/json/${ip}`)
+        const location = await res.json()
+        const converted=`${location.city} ${location.regionName}`
+        setLoc(converted)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+    const data=localStorage.getItem("jwtToken")
+
+   async function intialUser(){
+    const data=await getuser()
+    console.log(data)
+    setClientOrFreelancer(data.result?.user?.role)
+   }
+
+    useEffect(()=>{
+        if(data){
+          fetchcords()
+        }
+        fetchlocation()
+        if(loc){
+          setLocation(loc)
+        }
+        intialUser()
+      },[data,loc])
+      // console.log(user)
+      
+      console.log(clientOrFreelancer)
+
   return (
     <>
       <div className="container absolute left-2/4 z-10 mx-auto -translate-x-2/4 p-4">
-            <Navbar routes={routes} />
+        <Navbar routes={routes} userType={clientOrFreelancer}/>
       </div>
       <div className="relative flex h-screen content-center items-center justify-center pt-16 pb-32 bg-black">
        <Outlet/>
@@ -30,13 +79,23 @@ export function Home() {
         <div className="max-w-8xl container relative mx-auto">
           <div className="flex flex-wrap items-center">
             <div className="ml-auto mr-auto w-full px-4 text-center lg:w-8/12">
-              <Typography
+             { clientOrFreelancer=="Client" ?
+             (<Typography
                 variant="h1"
                 color="white"
                 className="mb-6 font-black"
               >
                 Your story starts with us.
-              </Typography>
+              </Typography>)
+              :
+             (<Typography
+                variant="h1"
+                color="white"
+                className="mb-6 font-black"
+              >
+                Your Freelancing jounery starts with us.
+              </Typography>)
+              }
               <Typography variant="lead" color="white" className="opacity-80">
               Whether you're a business looking for expert freelancers or a professional seeking rewarding work, we've got you covered. Post jobs, showcase skills, and build the future of work—all in one place.
               </Typography>

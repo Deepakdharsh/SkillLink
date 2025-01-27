@@ -3,6 +3,7 @@ import { Routes, Route, useLocation, Link } from 'react-router-dom';
 import { LayoutDashboard as DashboardIcon, Table, Receipt, Languages, Bell, User, LogIn, UserPlus, Users } from 'lucide-react';
 import axiosInstance from '@/api/axiosInstance';
 import { getuser, listUsers } from '@/api/apiService';
+import pic from "../../../public/img/profilePlaceholderImg.png"
 
 const TablesPage = () => {
     const authorsData = [
@@ -53,16 +54,17 @@ const TablesPage = () => {
 
     useEffect(()=>{
       async function getData(){
+        console.log("=============")
         const data=await listUsers()
         setUsers(data?.result?.users)
-        console.log(data.result.users)
+        console.log(data)
       };
       getData()
     },[])
 
     // console.log(users[0]?.name)
 
-    users.map((val,i)=>console.log(val.name))
+    // users.map((val,i)=>console.log(val.name))
   
     return (
       <div className="p-8">
@@ -94,9 +96,9 @@ const TablesPage = () => {
                     <td className="py-4">
                       <div className="flex items-center gap-3">
                         <img 
-                          src="/api/placeholder/40/40" 
-                          alt={user.name} 
-                          className="w-10 h-10 rounded-full"
+                          src={user.photo?`http://localhost:8000/images/${user.photo}`:pic} 
+                          alt="profile-photo"
+                          className="w-10 h-10 object-cover rounded-full"
                         />
                         <div>
                           <p className="font-semibold">{user.name}</p>

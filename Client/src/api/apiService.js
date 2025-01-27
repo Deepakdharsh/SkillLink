@@ -155,7 +155,9 @@ export const resetPassword = async (data) => {
 
 export const listUsers = async () => {
   try {
+    console.log("request sented")
     const response = await axiosInstance.get('/client/list-users' );
+    console.log(response.data)
     return response.data;
   } catch (error) {
     if(error.response){
@@ -185,3 +187,35 @@ export const upload = async (data) => {
     }
   }
 };
+
+export const setLocation = async (data) => {
+  const obj={data}
+  console.log(obj)
+  try {
+    const response = await axiosInstance.post('/client/location',obj);
+    return response.data;
+  } catch (error) {
+    if(error.response){
+      console.error('Error :', error.response.data);
+      return error.response.data
+    }else{
+      console.error('Error:',error.message)
+    }
+  }
+};
+
+export const logout = async () => {
+  try {
+    const response = await axiosInstance.get('/client/logout');
+    return response.data;
+  } catch (error) {
+    if(error.response){
+      console.error('Error :', error.response.data);
+      return error.response.data
+    }else{
+      console.error('Error:',error.message)
+    }
+  }
+};
+
+

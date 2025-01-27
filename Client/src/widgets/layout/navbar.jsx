@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Navbar as MTNavbar,
   /* MobileNav, */
@@ -11,20 +11,33 @@ import {
 } from "@material-tailwind/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { googleLogout } from '@react-oauth/google';
+import {  toast } from 'react-toastify';
 
-export function Navbar({ brandName, action }) {
+export function Navbar({ brandName, action,userType }) {
   const [openNav, setOpenNav] = React.useState(false);
+  const [loggedIn,setLoggedIn]=useState(false)
+  const navigate=useNavigate()
+  const data=localStorage.getItem("jwtToken")
 
   React.useEffect(() => {
     window.addEventListener(
       "resize",
       () => window.innerWidth >= 960 && setOpenNav(false)
     );
-  }, []);
+
+    if(data) setLoggedIn(true)
+
+  }, [data,navigate]);
+  
   function handleLogout(){
     console.log("hello from logout")
     googleLogout()
     localStorage.removeItem('jwtToken')
+    setLoggedIn(false)
+    toast("successfully logout",{
+      position: "top-center",
+      autoClose: 3000,
+    })
   }
 
   const navList = (
@@ -94,9 +107,19 @@ export function Navbar({ brandName, action }) {
         </Link>
         <div className="hidden lg:block ml-[91px] ">{navList}</div>
         <div className="hidden gap-2 lg:flex">
-            <Button onClick={()=>handleLogout()} variant="text" size="sm" color="white" fullWidth>
+          {
+            loggedIn ? (
+              <Button onClick={()=>handleLogout()} variant="text" size="sm" color="white" fullWidth>
               logout
             </Button>
+            ) :
+            (
+              <Button onClick={()=>navigate("/home/sign-in")} variant="text" size="sm" color="white" fullWidth>
+              login
+              </Button>
+            )
+          }
+            
           {React.cloneElement(action, {
             className: "hidden lg:inline-block",
           })}

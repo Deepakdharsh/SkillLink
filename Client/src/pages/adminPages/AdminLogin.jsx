@@ -86,9 +86,12 @@ export function AdminLogin() {
           console.log('Form submitted:', formData);
           const data=await loginUser(formData)
           console.log(data)
-          if(data.token){
+          // console.log(data.result.user.role)
+          if(data.token && data.result.user.role==="admin"){ // complete the next steps
+            // console.log("hello")
+            localStorage.setItem("jwtToken", data.token);
             dispatch(setToken(data.token))
-            navigate("/home")
+            navigate("/admin/dashboard")
           }
         }
         

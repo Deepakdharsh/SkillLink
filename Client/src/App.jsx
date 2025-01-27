@@ -22,6 +22,10 @@ import Layout from "./components/Layout ";
 import Otp2 from "./pages/auth/Otp2";
 import ResetPassword from "./pages/auth/ResetPassword";
 import ProfileEdit from "./pages/clientPages/ProfileEdit";
+import { ToastContainer } from 'react-toastify';
+import AdminProtectRoute from "./components/adminProtectRoute";
+import ChangePassword from "./pages/auth/ChangePassword";
+import EditProfile from "./pages/adminPages/EditProfile";
 
 ////////////  admin
 
@@ -54,11 +58,14 @@ function App() {
         <Route path="/post-4" element={<PostFour/>} />
         <Route path="/post-5" element={<PostFive/>} /> */}
         <Route path="/admin/login" element={<AdminLogin/>} />
-        <Route path="/admin/dashboard" element={ <Layout><AdminDashboard/></Layout>} />
-        <Route path="/admin/profile" element={<Layout><ProfilePage/></Layout>} />
-        <Route path="/admin/table" element={<Layout><TablesPage/></Layout>} />
+        <Route path="/admin/dashboard" element={<AdminProtectRoute><Layout><AdminDashboard/></Layout></AdminProtectRoute>} />
+        <Route path="/admin/profile" element={<AdminProtectRoute><Layout><ProfilePage/></Layout></AdminProtectRoute>} />
+        <Route path="/admin/table" element={<AdminProtectRoute><Layout><TablesPage/></Layout></AdminProtectRoute>} />
+        <Route path="/admin/profile-edit" element={<AdminProtectRoute><Layout><EditProfile/></Layout></AdminProtectRoute>} />
+        <Route path="/admin/change-password" element={<ChangePassword/>} />
         <Route path="*" element={<p>Page Not Found</p>} />
       </Routes> 
+        <ToastContainer/>
       
     </>
   );

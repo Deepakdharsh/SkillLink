@@ -9,6 +9,9 @@ const UserSchema=new mongoose.Schema({
         required:[true,"A user must have name"],
         unique:true,
     },
+    department:{
+        type:String,
+    },
     email:{
         type:String,
         trim:true,
@@ -36,7 +39,8 @@ const UserSchema=new mongoose.Schema({
     isBlocked:Boolean,
     position:String,
     degree:[String],
-    bio:String
+    bio:String,
+    location:String
 },{timestamps:true})
 
 UserSchema.pre("save",async function(next){

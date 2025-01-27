@@ -7,7 +7,7 @@ import { X, AlertCircle } from 'lucide-react';
 import {loginUser,googleSignIn} from "../../api/apiService"
 import { useDispatch } from "react-redux";
 import { setToken } from "@/features/userSlice";
-
+import {  toast } from 'react-toastify';
 
 export function SignIn() {
   const navigate=useNavigate()
@@ -23,14 +23,21 @@ export function SignIn() {
           }
         })
         console.log(res.data)
-        const {email,given_name:name,picture,}=res.data
+        // const {email,given_name:name,picture,}=res.data
         const data=await googleSignIn(res.data)
-        console.log(data.success)
-        console.log(data.token)
+        // console.log(data.success)
+        // console.log(data.token)
+        console.log("====================")
+        console.log(data)
+        console.log("===================")
         if(data.success){
           localStorage.setItem("jwtToken", data.token);
           dispatch(setToken(data.token))
           navigate("/home")
+          toast("successfully loggedIn",{
+              position: "top-center",
+              autoClose: 3000,
+          })
         }
       } catch (error) {
         console.log(error)
@@ -93,6 +100,10 @@ export function SignIn() {
             localStorage.setItem('jwtToken', data.token)
             dispatch(setToken(data.token))
             navigate("/home")
+            toast("successfully loggedIn",{
+              position: "top-center",
+              autoClose: 3000,
+            })
           }else{
             setError("invaild credentials")
           }

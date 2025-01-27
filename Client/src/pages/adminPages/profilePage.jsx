@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Camera, Mail, Phone, MapPin, Building, Globe } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import pic from "../../../public/img/profilePlaceholderImg.png"
+import { getuser } from '@/api/apiService';
 
 const ProfilePage = () => {
   const [profileData] = useState({
@@ -9,11 +12,21 @@ const ProfilePage = () => {
     phone: '+1 (555) 123-4567',
     location: 'New York, USA',
     department: 'IT Administration',
-    website: 'www.johndoe.com'
+    website: 'www.skillLink.com'
   });
+  const navigate=useNavigate()
+
+  useEffect(()=>{
+    async function fetchUser(){
+      const data = await getuser()
+      console.log(data)
+    }
+
+    fetchUser()
+  })
 
   return (
-    <div className="ml-64 min-h-screen bg-gray-100 p-4 lg:p-8">
+    <div className="ml-[10px] min-h-screen bg-gray-100 p-4 lg:p-8">
       {/* Header Section */}
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-gray-800">Profile</h1>
@@ -27,7 +40,7 @@ const ProfilePage = () => {
           <div className="flex flex-col items-center">
             <div className="relative">
               <img
-                src="/api/placeholder/120/120"
+                src={pic}
                 alt="Profile"
                 className="h-32 w-32 rounded-full object-cover"
               />
@@ -90,10 +103,10 @@ const ProfilePage = () => {
 
             {/* Action Buttons */}
             <div className="mt-8 flex flex-wrap gap-4">
-              <button className="rounded-lg bg-blue-500 px-6 py-2 text-white hover:bg-blue-600">
+              <button onClick={()=>navigate("/admin/profile-edit")} className="rounded-lg bg-blue-500 px-6 py-2 text-white hover:bg-blue-600">
                 Edit Profile
               </button>
-              <button className="rounded-lg border border-gray-300 px-6 py-2 text-gray-700 hover:bg-gray-50">
+              <button onClick={()=>navigate("/admin/change-password")} className="rounded-lg border border-gray-300 px-6 py-2 text-gray-700 hover:bg-gray-50">
                 Change Password
               </button>
             </div>
@@ -101,7 +114,7 @@ const ProfilePage = () => {
         </div>
 
         {/* Activity Card */}
-        <div className="rounded-lg bg-white shadow-md lg:col-span-3">
+       {/*  <div className="rounded-lg bg-white shadow-md lg:col-span-3">
           <div className="border-b border-gray-200 p-6">
             <h2 className="text-xl font-semibold text-gray-800">Recent Activity</h2>
           </div>
@@ -121,7 +134,7 @@ const ProfilePage = () => {
               ))}
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

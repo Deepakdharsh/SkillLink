@@ -29,5 +29,8 @@ Router.route("/google-in").post(authController.googleSignIn)
 Router.route("/get-user").get(authController.protected,authController.getUser)
 Router.route("/list-users").get(authController.protected,authController.listUsers)
 Router.route("/upload").post(authController.protected,upload.single("profileImage"),authController.upload)
+Router.route("/location").post(authController.protected,authController.setLocation)
+Router.route("/logout").get(authController.protected,authController.logout)
+// Router.route("/change-password").post(authController.protected,authController.setLocation)
 
 module.exports=Router

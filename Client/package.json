@@ -33,6 +33,7 @@
     "react-router-dom": "^6.11.0",
     "react-scripts": "^5.0.1",
     "react-table": "^7.8.0",
+    "react-toastify": "^11.0.3",
     "redux-persist": "^6.0.0",
     "shadcn-ui": "^0.9.4",
     "stylis": "^4.1.4",
