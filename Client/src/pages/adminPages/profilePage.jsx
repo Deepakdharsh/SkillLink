@@ -5,25 +5,34 @@ import pic from "../../../public/img/profilePlaceholderImg.png"
 import { getuser } from '@/api/apiService';
 
 const ProfilePage = () => {
-  const [profileData] = useState({
-    name: 'John Doe',
-    role: 'Senior Administrator',
-    email: 'john.doe@example.com',
+  const [profileData,setProfileData] = useState({
+    name: '',
+    role: '',
+    email: '',
     phone: '+1 (555) 123-4567',
     location: 'New York, USA',
-    department: 'IT Administration',
-    website: 'www.skillLink.com'
+    department: '',
+    website: 'www.skillLink.com',
+    photo:""
   });
   const navigate=useNavigate()
 
   useEffect(()=>{
     async function fetchUser(){
       const data = await getuser()
-      console.log(data)
+      setProfileData((pre)=>({
+        ...pre,
+        name:data.result.user.name,
+        role:data.result.user.role,
+        email:data.result.user.email,
+        department:data.result.user.department,
+        photo:data.result.user.photo
+      }))
+      console.log(data.result.user)
     }
 
     fetchUser()
-  })
+  },[])
 
   return (
     <div className="ml-[10px] min-h-screen bg-gray-100 p-4 lg:p-8">
@@ -40,7 +49,7 @@ const ProfilePage = () => {
           <div className="flex flex-col items-center">
             <div className="relative">
               <img
-                src={pic}
+                src={profileData.photo ? `http://localhost:8000/images/${profileData.photo}` : pic}
                 alt="Profile"
                 className="h-32 w-32 rounded-full object-cover"
               />

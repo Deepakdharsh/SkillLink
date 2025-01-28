@@ -84,14 +84,14 @@ const TablesPage = () => {
               <thead>
                 <tr className="text-left text-gray-500 border-b">
                   <th className="pb-4">AUTHOR</th>
-                  <th className="pb-4">FUNCTION</th>
+                  <th className="pb-4">ROLE</th>
                   <th className="pb-4">STATUS</th>
-                  <th className="pb-4">EMPLOYED</th>
+                  <th className="pb-4">IS Blocked</th>
                   <th className="pb-4">ACTION</th>
                 </tr>
               </thead>
               <tbody>
-                {users.map((user, index) => (
+                {users.filter((cur)=>cur.role!=="admin").map((user, index) => (
                   <tr key={index} className="border-b">
                     <td className="py-4">
                       <div className="flex items-center gap-3">
@@ -112,17 +112,17 @@ const TablesPage = () => {
                     </td>
                     <td className="py-4">
                       <span className={`px-2 py-1 rounded-full text-xs ${
-                        user.status === 'ONLINE' 
+                        user.role === 'client' 
                           ? 'bg-green-100 text-green-800' 
-                          : 'bg-gray-100 text-gray-800'
+                          : 'bg-gray-100 text-red-800'
                       }`}>
-                        {user.status}
+                        {user.role}
                       </span>
                     </td>
                     <td className="py-4 text-sm text-gray-500">{user.employed}</td>
                     <td className="py-4">
                       <button className="text-blue-500 hover:text-blue-700">
-                        Edit
+                        Block/unblock
                       </button>
                     </td>
                   </tr>

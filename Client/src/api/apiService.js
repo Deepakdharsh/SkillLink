@@ -127,6 +127,7 @@ export const verifyForgotPassword = async (data) => {
 export const getuser = async () => {
   try {
     const response = await axiosInstance.get('/client/get-user');
+    // console.log(response.data)
     return response.data;
   } catch (error) {
     if(error.response){
