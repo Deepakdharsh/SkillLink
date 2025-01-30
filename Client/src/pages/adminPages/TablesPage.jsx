@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Routes, Route, useLocation, Link } from 'react-router-dom';
 import { LayoutDashboard as DashboardIcon, Table, Receipt, Languages, Bell, User, LogIn, UserPlus, Users } from 'lucide-react';
 import axiosInstance from '@/api/axiosInstance';
-import { getuser, listUsers } from '@/api/apiService';
+import { blockUser, getuser, listUsers } from '@/api/apiService';
 import pic from "../../../public/img/profilePlaceholderImg.png"
 
 const TablesPage = () => {
@@ -52,15 +52,23 @@ const TablesPage = () => {
     ];
     const [users,setUsers]=useState([])
 
+    async function getData(){
+    console.log("=============")
+      const data=await listUsers()
+      setUsers(data?.result?.users)
+      console.log("==========daa",data)
+    }; 
+
     useEffect(()=>{
-      async function getData(){
-        console.log("=============")
-        const data=await listUsers()
-        setUsers(data?.result?.users)
-        console.log(data)
-      };
       getData()
     },[])
+
+    const handleBlockUser=async(id)=>{
+      console.log(`user id is : ${id}`)
+      const res=await blockUser(id)
+      console.log(res)
+      getData()
+    }
 
     // console.log(users[0]?.name)
 
@@ -85,7 +93,7 @@ const TablesPage = () => {
                 <tr className="text-left text-gray-500 border-b">
                   <th className="pb-4">AUTHOR</th>
                   <th className="pb-4">ROLE</th>
-                  <th className="pb-4">STATUS</th>
+                  {/* <th className="pb-4">STATUS</th> */}
                   <th className="pb-4">IS Blocked</th>
                   <th className="pb-4">ACTION</th>
                 </tr>
@@ -110,19 +118,44 @@ const TablesPage = () => {
                       <p className="font-semibold">{user.role}</p>
                       {/* <p className="text-sm text-gray-500">{user.function.dept}</p> */}
                     </td>
-                    <td className="py-4">
+                    {/* <td className="py-4">
                       <span className={`px-2 py-1 rounded-full text-xs ${
-                        user.role === 'client' 
+                        user.isBlocked === true 
                           ? 'bg-green-100 text-green-800' 
                           : 'bg-gray-100 text-red-800'
                       }`}>
-                        {user.role}
+                        {
+                          user.isBlocked ? 
+                          `ofline` 
+                          :
+                          `online`
+                        }
+                      </span>
+                    </td> */}
+                    <td className="py-4">
+                      <span className={`px-2 py-1 rounded-full text-xs ${
+                        user.isBlocked === true 
+                          ? 'bg-green-100 text-green-800' 
+                          : 'bg-gray-100 text-red-800'
+                      }`}>
+                        {
+                          user.isBlocked ? 
+                          `blocked` 
+                          :
+                          `Not blocked`
+                        }
                       </span>
                     </td>
-                    <td className="py-4 text-sm text-gray-500">{user.employed}</td>
+                    {/* <td className="py-4 text-sm text-gray-500">{user.employed}</td> */}
                     <td className="py-4">
-                      <button className="text-blue-500 hover:text-blue-700">
-                        Block/unblock
+                      <button onClick={()=>handleBlockUser(user._id)} className={`text-blue-500 hover:text-blue-700 ${
+                        user.isBlocked === true 
+                          ? 'text-yellow-800' 
+                          : 'text-gray-800'
+                      }`}>
+                        {
+                          user.isBlocked === true ? `unblock`: `block`
+                        }
                       </button>
                     </td>
                   </tr>

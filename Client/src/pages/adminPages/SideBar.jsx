@@ -12,7 +12,7 @@ const SideBar = () => {
       console.log("========")
       console.log(res)
       if(res.success){
-        localStorage.removeItem('jwtToken')
+        localStorage.removeItem('jwtAdminToken')
         navigate("/admin/login")
         toast("successfully logout",{
           position: "top-center",

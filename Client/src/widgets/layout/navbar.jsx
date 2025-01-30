@@ -12,6 +12,7 @@ import {
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { googleLogout } from '@react-oauth/google';
 import {  toast } from 'react-toastify';
+import UserType from "@/pages/auth/UserType";
 
 export function Navbar({ brandName, action,userType }) {
   const [openNav, setOpenNav] = React.useState(false);
@@ -40,7 +41,7 @@ export function Navbar({ brandName, action,userType }) {
     })
   }
 
-  const navList = (
+const navList = (
     <ul className="mb-4 mt-2 flex flex-col gap-2 text-inherit lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
       <Typography
           as="li"
@@ -91,7 +92,64 @@ export function Navbar({ brandName, action,userType }) {
               to="/doc"
               className="flex items-center gap-1 p-1 font-bold"
             >
-              Become a seller
+             contracts
+            </Link>
+        </Typography>
+    </ul>
+  );
+
+  const freelancerNavList = (
+    <ul className="mb-4 mt-2 flex flex-col gap-2 text-inherit lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
+      <Typography
+          as="li"
+          variant="small"
+          color="inherit"
+          className="capitalize"
+        >
+            <Link
+              to="/home"
+              className="flex items-center gap-1 p-1 font-bold"
+            >
+              home
+            </Link>
+        </Typography>
+      <Typography
+          as="li"
+          variant="small"
+          color="inherit"
+          className="capitalize"
+        >
+            <Link
+              to="/profile"
+              className="flex items-center gap-1 p-1 font-bold"
+            >
+              profile
+            </Link>
+        </Typography>
+      <Typography
+          as="li"
+          variant="small"
+          color="inherit"
+          className="capitalize"
+        >
+            <Link
+              to="/doc"
+              className="flex items-center gap-1 p-1 font-bold"
+            >
+              Find job
+            </Link>
+        </Typography>
+      <Typography
+          as="li"
+          variant="small"
+          color="inherit"
+          className="capitalize"
+        >
+            <Link
+              to="/doc"
+              className="flex items-center gap-1 p-1 font-bold"
+            >
+              contracts
             </Link>
         </Typography>
     </ul>
@@ -105,7 +163,11 @@ export function Navbar({ brandName, action,userType }) {
             {brandName}
           </Typography>
         </Link>
-        <div className="hidden lg:block ml-[91px] ">{navList}</div>
+        <div className="hidden lg:block ml-[91px] ">
+        {
+          userType=="client" ? navList : freelancerNavList
+        }
+        </div>
         <div className="hidden gap-2 lg:flex">
           {
             loggedIn ? (
@@ -120,9 +182,23 @@ export function Navbar({ brandName, action,userType }) {
             )
           }
             
-          {React.cloneElement(action, {
+            {
+          userType=="client" ? (
+            <Button variant="gradient" size="lg" fullWidth className="whitespace-nowrap p-0 w-full  hidden lg:inline-block ">
+            Post Job
+            </Button>
+            )
+            :(
+              <Button variant="gradient" size="lg" fullWidth className="whitespace-nowrap p-0 w-full  hidden lg:inline-block">
+              Post gig
+              </Button>
+            )
+
+          }
+          
+          {/* {React.cloneElement(action, {
             className: "hidden lg:inline-block",
-          })}
+          })} */}
         </div>
         <IconButton
           variant="text"
@@ -143,7 +219,6 @@ export function Navbar({ brandName, action,userType }) {
         open={openNav}
       >
         <div className="container mx-auto flex flex-col items-center">
-          {navList}
           <a
             href="https://www.material-tailwind.com/blocks/react?ref=mtkr"
             target="_blank"
@@ -153,9 +228,23 @@ export function Navbar({ brandName, action,userType }) {
               pro version
             </Button>
           </a>
-          {React.cloneElement(action, {
+          {
+          userType=="client" ? (
+            <Button variant="gradient" size="sm" fullWidth className="whitespace-nowrap p-0 w-full block ">
+            Post Job
+            </Button>
+            )
+            :(
+              <Button variant="gradient" size="sm" fullWidth className="whitespace-nowrap p-0 w-full block ">
+              Post gig
+              </Button>
+            )
+
+          }
+          
+          {/* {React.cloneElement(action, {
             className: "w-full block ",
-          })}
+          })} */}
         </div>
       </Collapse>}
     </MTNavbar>

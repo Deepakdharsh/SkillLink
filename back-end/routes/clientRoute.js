@@ -31,6 +31,7 @@ Router.route("/list-users").get(authController.protected,authController.listUser
 Router.route("/upload").post(authController.protected,upload.single("profileImage"),authController.upload)
 Router.route("/location").post(authController.protected,authController.setLocation)
 Router.route("/logout").get(authController.protected,authController.logout)
+Router.route("/block-user").post(authController.protected,authController.block)
 // Router.route("/change-password").post(authController.protected,authController.setLocation)
 
 module.exports=Router

@@ -158,7 +158,9 @@ export const listUsers = async () => {
   try {
     console.log("request sented")
     const response = await axiosInstance.get('/client/list-users' );
+    console.log("======")
     console.log(response.data)
+    console.log("======")
     return response.data;
   } catch (error) {
     if(error.response){
@@ -208,6 +210,21 @@ export const setLocation = async (data) => {
 export const logout = async () => {
   try {
     const response = await axiosInstance.get('/client/logout');
+    return response.data;
+  } catch (error) {
+    if(error.response){
+      console.error('Error :', error.response.data);
+      return error.response.data
+    }else{
+      console.error('Error:',error.message)
+    }
+  }
+};
+
+
+export const blockUser = async (id) => {
+  try {
+    const response = await axiosInstance.post('/client/block-user',{id});
     return response.data;
   } catch (error) {
     if(error.response){

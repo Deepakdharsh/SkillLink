@@ -40,7 +40,11 @@ const UserSchema=new mongoose.Schema({
     position:String,
     degree:[String],
     bio:String,
-    location:String
+    location:String,
+    isBlocked:{
+        type:Boolean,
+        default:false
+    }
 },{timestamps:true})
 
 UserSchema.pre("save",async function(next){

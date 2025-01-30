@@ -281,6 +281,37 @@ exports.logout=async(req,res,next)=>{
     }
 }
 
+exports.block=async(req,res,next)=>{
+    console.log("you entered the block controller")
+    try {
+        const {id}=req.body
+        console.log(req.body)
+
+        if(!id){
+            throw  createError(400,"userId not found")
+        }
+
+        const user = await UserModel.findOne({_id:id})
+        console.log(user)
+
+        if(!user){
+         throw  createError(401,"user not found")
+        }
+        // const value
+        // user.isBlocked=false
+        user.isBlocked=!user.isBlocked
+        await user.save()
+        
+        res.status(201).json({
+            success:true,
+            message:"successfull blocked user",
+        })
+
+    } catch (error) {
+        next(error)
+    }
+}
+
 exports.googleSignIn=async(req,res,next)=>{
     try {
         const {email,given_name:name,sub:googleID,picture:photo}=req.body
@@ -360,9 +391,12 @@ exports.protected=async(req,res,next)=>{
      const decoded=jwt.decode(token)
 
      const currentUser =await UserModel.findOne({_id:decoded.id})
+    //  console.log("========")
     //  console.log(currentUser)
-
+    //  console.log("========")
+     
      req.email=currentUser.email
+     req.role=currentUser.role
      console.log(req.email)
      next()
      
@@ -371,7 +405,36 @@ exports.protected=async(req,res,next)=>{
    }
 }
 
-exports.restrictedTo=(req,res,next)=>{
+exports.isBlocked=async(req,res,next)=>{
+    console.log("isBlocked")
+   try {
+     const email=req.email
+     const currentUser=UserModel.findOne({email})
+
+     if(currentUser.role!="admin"){
+        if(currentUser?.isBlocked) {
+            req.email=""
+            next()
+        }else{
+            next()
+        }
+     }
+        
+     next()
+     
+   } catch (error) {
+        next(error)
+   }
+}
+
+
+exports.restrictedTo=(...roles)=>{
+    return (req, res, next) => {
+        if (!roles.includes(req.role)) {
+            return res.status(403).json({ message:"Forbidden: Access Denied" });
+        }
+        next();
+    };
 }
 
 exports.forgotPassword=async(req,res,next)=>{

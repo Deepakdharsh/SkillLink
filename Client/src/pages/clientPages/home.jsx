@@ -21,7 +21,7 @@ import { getuser, setLocation } from "@/api/apiService";
 export function Home() {
   const [ip,setIp]=useState("")
   const [loc,setLoc]=useState("")
-  const [clientOrFreelancer,setClientOrFreelancer]=useState("Client")
+  const [clientOrFreelancer,setClientOrFreelancer]=useState("client")
 
   const fetchcords=async()=>{
     try {
@@ -79,7 +79,7 @@ export function Home() {
         <div className="max-w-8xl container relative mx-auto">
           <div className="flex flex-wrap items-center">
             <div className="ml-auto mr-auto w-full px-4 text-center lg:w-8/12">
-             { clientOrFreelancer=="Client" ?
+             { clientOrFreelancer=="client" ?
              (<Typography
                 variant="h1"
                 color="white"

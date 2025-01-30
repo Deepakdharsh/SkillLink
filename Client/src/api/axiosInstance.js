@@ -24,6 +24,11 @@ const axiosInstance = axios.create({
 // axiosInstance.interceptors.response.use(
 //     (response) => {
 //       // You can log or modify responses here if needed
+
+//       if(response.blocked){
+          
+//        }
+
 //       return response;
 //     },
 //     (error) => {

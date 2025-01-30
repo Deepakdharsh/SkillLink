@@ -89,7 +89,7 @@ export function AdminLogin() {
           // console.log(data.result.user.role)
           if(data.token && data.result.user.role==="admin"){ // complete the next steps
             // console.log("hello")
-            localStorage.setItem("jwtToken", data.token);
+            localStorage.setItem("jwtAdminToken", data.token);
             dispatch(setToken(data.token))
             navigate("/admin/dashboard")
           }

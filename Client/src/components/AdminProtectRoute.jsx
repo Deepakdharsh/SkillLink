@@ -3,7 +3,7 @@ import { Navigate, useNavigate } from 'react-router-dom'
 
 function AdminProtectRoute({children}) {
     //  const data=useSelector((state)=>state.token)
-     const data=localStorage.getItem("jwtToken")
+     const data=localStorage.getItem("jwtAdminToken")
     //  console.log(data)
     // const user=false
     const navigate=useNavigate()
