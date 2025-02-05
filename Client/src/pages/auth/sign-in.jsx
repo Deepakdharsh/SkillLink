@@ -13,6 +13,7 @@ export function SignIn() {
   const navigate=useNavigate()
   const dispatch=useDispatch()
   const [error,setError]=useState("")
+  // const [IsBlocked,setIsBlocked]=useState(false)
 
   const login = useGoogleLogin({
     onSuccess: async tokenResponse =>{
@@ -22,15 +23,30 @@ export function SignIn() {
             Authorization:`Bearer ${tokenResponse.access_token}`
           }
         })
+        console.log("***********************")
         console.log(res.data)
+        console.log("***********************")
         // const {email,given_name:name,picture,}=res.data
         const data=await googleSignIn(res.data)
         // console.log(data.success)
         // console.log(data.token)
         console.log("====================")
         console.log(data)
+        const IsGoogleBlocked=data.result.user.isBlocked
         console.log("===================")
         if(data.success){
+          console.log("///////")
+            console.log(IsGoogleBlocked)
+            console.log("/////////")
+            if(IsGoogleBlocked){
+              setIsSubmitting(false)
+              toast("something went wrong",{
+                position: "top-center",
+                autoClose: 3000,
+              })
+              console.log("hello")
+              return 
+            }
           localStorage.setItem("jwtToken", data.token);
           dispatch(setToken(data.token))
           navigate("/home")
@@ -95,8 +111,24 @@ export function SignIn() {
         if (validateForm()) {
           console.log('Form submitted:', formData);
           const data=await loginUser(formData)
+          console.log("//////////////")
           console.log(data)
+          // console.log(data.result.user.isBlocked)
+          const IsBlocked=data.result.user.isBlocked
+          console.log("//////////////")
           if(data?.success){
+            console.log("///////")
+            console.log(IsBlocked)
+            console.log("/////////")
+            if(IsBlocked){
+              setIsSubmitting(false)
+              toast("something went wrong",{
+                position: "top-center",
+                autoClose: 3000,
+              })
+              console.log("hello")
+              return 
+            }
             localStorage.setItem('jwtToken', data.token)
             dispatch(setToken(data.token))
             navigate("/home")

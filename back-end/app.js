@@ -15,7 +15,7 @@ app.use(express.static("public"))
 app.use(cors({
     origin:["http://localhost:5173"],
     methods: ['GET', 'POST',"PUT","DELETE"],
-    allowedHeaders: ['Content-Type', 'Authorization'],  // Allowed headers
+    // allowedHeaders: ['Content-Type', 'Authorization'],  // Allowed headers
     credentials: true 
 }))
 app.use(

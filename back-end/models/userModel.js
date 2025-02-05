@@ -7,7 +7,6 @@ const UserSchema=new mongoose.Schema({
         type:String,
         trim:true,
         required:[true,"A user must have name"],
-        unique:true,
     },
     department:{
         type:String,

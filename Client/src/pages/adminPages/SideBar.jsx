@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { LayoutDashboard , Table, Receipt, Languages, Bell, User, LogIn, UserPlus } from 'lucide-react';
+import { LayoutDashboard , Table, Receipt, Languages, Bell, User, LogIn, UserPlus , Server } from 'lucide-react';
 import {  toast } from 'react-toastify';
 import { logout } from "@/api/apiService";
 
@@ -29,6 +29,7 @@ const SideBar = () => {
       // { icon: <Languages size={20} />, label: 'RTL', path: '/rtl' },
       { icon: <Bell size={20} />, label: 'Notifications', path: '/notifications' },
       { icon: <User size={20} />, label: 'Profile', path: '/admin/profile' },
+      { icon: <Server size={20} />, label: 'service', path: '/admin/category' },
       // { icon: <LogIn size={20} />, label: 'logout', path: '/signin' },
       // { icon: <UserPlus size={20} />, label: 'Sign Up', path: '/signup' },
     ];

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Camera, Mail, Phone, MapPin, Building, Globe } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import pic from "../../../public/img/profilePlaceholderImg.png"
-import { getuser } from '@/api/apiService';
+import { getAdmin } from '@/api/apiService';
 
 const ProfilePage = () => {
   const [profileData,setProfileData] = useState({
@@ -15,11 +15,16 @@ const ProfilePage = () => {
     website: 'www.skillLink.com',
     photo:""
   });
+  const [Token,setToken]=useState("")
+
   const navigate=useNavigate()
 
   useEffect(()=>{
+    const token=localStorage.getItem("jwtAdminToken")
+    // setToken(token)
+
     async function fetchUser(){
-      const data = await getuser()
+      const data = await getAdmin(token)
       setProfileData((pre)=>({
         ...pre,
         name:data.result.user.name,

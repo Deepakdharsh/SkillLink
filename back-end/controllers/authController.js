@@ -14,8 +14,8 @@ exports.sendOtp=(req,res,next)=>{
     // console.log(req.body)
     try {
         const {email}=req.body;
-        console.log('====================')
-        console.log(email)
+        // console.log('====================')
+        // console.log(email)
 
         if(!email) throw createError(503,"something went wrong")
 
@@ -151,7 +151,7 @@ exports.signUp=async(req,res,next)=>{
         // console.log( typeof req.body.otp)
         // console.log(typeof sessionOtp)
 
-        console.log(username,email,password)
+        // console.log(username,email,password)
         
         if(Number(otp)!==sessionOtp) throw createError(400,"Invaild otp")
 
@@ -193,8 +193,8 @@ exports.signUp=async(req,res,next)=>{
 exports.setUserType=async(req,res,next)=>{
     try {
         const {role,email}=req.body
-        console.log( typeof req.body.role)
-        console.log( role)
+        // console.log( typeof req.body.role)
+        // console.log( role)
             
         const user = await UserModel.findOneAndUpdate({email},{role},{new:true})
 
@@ -222,7 +222,7 @@ exports.login=async(req,res,next)=>{
         }
 
         const user = await UserModel.findOne({email}).select("+password")
-        console.log(user)
+        // console.log(user)
         // const match = await bcrypt.compare(password,user.password)
 
         if(!user||!(await user.correctPassword(password,user.password))){
@@ -253,7 +253,7 @@ exports.login=async(req,res,next)=>{
 
 ///
 exports.logout=async(req,res,next)=>{
-    console.log("ssssss")
+    // console.log("ssssss")
     try {
         const email=req.email
         // console.log(req.body)
@@ -262,7 +262,7 @@ exports.logout=async(req,res,next)=>{
         }
 
         const user = await UserModel.findOne({email}).select("+password")
-        console.log(user)
+        // console.log(user)
         // const match = await bcrypt.compare(password,user.password)
 
         if(!user){
@@ -285,14 +285,14 @@ exports.block=async(req,res,next)=>{
     console.log("you entered the block controller")
     try {
         const {id}=req.body
-        console.log(req.body)
+        // console.log(req.body)
 
         if(!id){
             throw  createError(400,"userId not found")
         }
 
         const user = await UserModel.findOne({_id:id})
-        console.log(user)
+        // console.log(user)
 
         if(!user){
          throw  createError(401,"user not found")
@@ -313,23 +313,32 @@ exports.block=async(req,res,next)=>{
 }
 
 exports.googleSignIn=async(req,res,next)=>{
+
+    console.log("hello from the google sign In")
     try {
         const {email,given_name:name,sub:googleID,picture:photo}=req.body
-        console.log(req.body)
+        // console.log(req.body)
+
         if(!email||!name||!googleID){
             throw createError(400,"please provide email and password")
         }
 
         const user = await UserModel.findOne({email}).select("+password")
-        console.log(user)
-
+        // console.log("//////////////////////////////////////")
+        // console.log(user)
+        
         if(!user){
+            // console.log("//////////////////////////////////////")
             const newUser = await UserModel.create({
                 name,
                 email,
                 photo,
                 googleID,
             })
+            
+            // console.log("//////////////////////////////////////")
+            // console.log(newUser)
+            // console.log("//////////////////////////////////////")
 
             
          const token = signToken(newUser._id)
@@ -339,15 +348,15 @@ exports.googleSignIn=async(req,res,next)=>{
             secure:false,// ith production-il true koudakanom,
             sameSite:'strict',
             maxAge:3600000 * 24
-        })
+         })
 
          return res.status(201).json({
             success:true,
             token,
             result:{
-                user
+                newUser
             }
-        })
+         })
         }
 
         if(googleID===user.googleID){
@@ -359,7 +368,6 @@ exports.googleSignIn=async(req,res,next)=>{
                 sameSite:'strict',
                 maxAge:3600000 * 24
             })
-
             return res.status(201).json({
             success:true,
             token,
@@ -406,7 +414,7 @@ exports.protected=async(req,res,next)=>{
 }
 
 exports.isBlocked=async(req,res,next)=>{
-    console.log("isBlocked")
+    // console.log("isBlocked")
    try {
      const email=req.email
      const currentUser=UserModel.findOne({email})
@@ -427,7 +435,6 @@ exports.isBlocked=async(req,res,next)=>{
    }
 }
 
-
 exports.restrictedTo=(...roles)=>{
     return (req, res, next) => {
         if (!roles.includes(req.role)) {
@@ -441,7 +448,7 @@ exports.forgotPassword=async(req,res,next)=>{
 try {
     const {email} = req.body;
 
-    console.log(email)
+    // console.log(email)
     
     if(!email) throw  createError(500,"req.body is empty")
     
@@ -489,10 +496,10 @@ exports.verifyForgotOtp=async(req,res,next)=>{
     try {
         const sessionOtp=req.session.otp;
         const {otp}=req.body
-        console.log( typeof req.body.otp)
-        console.log(typeof sessionOtp)
+        // console.log( typeof req.body.otp)
+        // console.log(typeof sessionOtp)
 
-        console.log(otp)
+        // console.log(otp)
         if(!otp) throw createError(400,"req.body is empty")
         
         if(Number(otp)!==sessionOtp) throw createError(400,"Invaild otp")
@@ -511,12 +518,12 @@ exports.verifyForgotOtp=async(req,res,next)=>{
 exports.resetPassword=async(req,res,next)=>{
     try {
         const {email,password}=req.body;
-        console.log(email,password)
+        // console.log(email,password)
     
         if(!email||!password) throw createError(400,"req.body is empty")
         
         const user=await UserModel.findOne({email}).select("+password")
-        console.log(user)
+        // console.log(user)
         if(!user) throw createError(400,"user not found")
         
         user.password=password
@@ -541,7 +548,7 @@ exports.updatePassworde=async(req,res,next)=>{
         // console.log( typeof req.body.otp)
         // console.log(typeof sessionOtp)
 
-        console.log(username,email,password)
+        // console.log(username,email,password)
         
         if(Number(otp)!==sessionOtp) throw createError(400,"Invaild otp")
 
@@ -592,8 +599,27 @@ exports.getUser=async(req,res,next)=>{
     }
 }
 
+exports.getAdmin=async(req,res,next)=>{
+    try {
+        const {id} = jwt.verify(req.params.id,process.env.JWT_SECRET)
+        console.log("/////////")
+        console.log(id)
+        console.log("/////////")
+        const user=await UserModel.findOne({_id:id})
+        if(!user) throw createError(404,"found no users yet")
+        res.status(200).json({
+            success:true,
+            result:{
+                user
+            }
+        })
+    } catch (error) {
+        next(error)
+    }
+}
+
 exports.listUsers=async(req,res,next)=>{
-    console.log("request")
+    // console.log("request")
     try {
         const users=await UserModel.find()
         console.log(users)
@@ -648,21 +674,21 @@ exports.deleteUser=async(req,res,next)=>{
     }
 }
 
-exports.getAdmin=async(req,res,next)=>{
+// exports.getAdmin=async(req,res,next)=>{
     
-}
+// }
 
 exports.upload=async(req,res,next)=>{
     const userEmail=req.email
-    console.log(req.email)
-    console.log("===============")
+    // console.log(req.email)
+    // console.log("===============")
     // console.log(req.body)
     const obj={}
     if(req?.file?.filename) obj.photo=req?.file?.filename
     if(req?.body?.name) obj.name=req?.body?.name
     if(req?.body?.position) obj.position=req?.body?.position
     if(req?.body?.bio) obj.bio=req.body?.bio
-    console.log(obj)
+    // console.log(obj)
     // console.log(req.body)
 
     // if(Object.keys(obj).length===0) return 
@@ -670,9 +696,9 @@ exports.upload=async(req,res,next)=>{
     try {
         const user=await UserModel.findOneAndUpdate({email:userEmail},obj,{new:true})
         // const user=await UserModel.findOne({email:userEmail})
-        console.log("=====")
-        console.log(user)
-        console.log("=====")
+        // console.log("=====")
+        // console.log(user)
+        // console.log("=====")
 
         if(!user) throw createError(400,"something went wrong")
 
@@ -688,7 +714,7 @@ exports.upload=async(req,res,next)=>{
 
 exports.setLocation=async(req,res,next)=>{
     try {
-        console.log(req.body)
+        // console.log(req.body)
         const {data}=req.body
         if(!data) throw createError(400,"something went wrong")
 
@@ -696,7 +722,7 @@ exports.setLocation=async(req,res,next)=>{
         res.status(200).json({
             success:true,
             reult:{
-                deletedUser
+                user
             }
         })
     } catch (error) {

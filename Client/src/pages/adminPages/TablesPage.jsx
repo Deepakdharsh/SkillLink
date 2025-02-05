@@ -86,12 +86,12 @@ const TablesPage = () => {
         <h1 className="text-2xl font-semibold mb-8">Tables</h1>
   
         <div className="bg-white rounded-xl shadow-sm p-6">
-          <h2 className="text-xl font-semibold mb-6">Authors Table</h2>
+          <h2 className="text-xl font-semibold mb-6">User's Table</h2>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
                 <tr className="text-left text-gray-500 border-b">
-                  <th className="pb-4">AUTHOR</th>
+                  <th className="pb-4">Name</th>
                   <th className="pb-4">ROLE</th>
                   {/* <th className="pb-4">STATUS</th> */}
                   <th className="pb-4">IS Blocked</th>

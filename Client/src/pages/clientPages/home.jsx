@@ -27,7 +27,7 @@ export function Home() {
     try {
         const res=await fetch("https://api.ipify.org")
         const iptext = await res.text()
-        console.log(iptext)
+        // console.log(iptext)
         setIp(iptext)
     } catch (error) {
       console.error(error)
@@ -49,8 +49,9 @@ export function Home() {
 
    async function intialUser(){
     const data=await getuser()
-    console.log(data)
+    // console.log(data)
     setClientOrFreelancer(data.result?.user?.role)
+    // console.log(data)
    }
 
     useEffect(()=>{
@@ -65,7 +66,9 @@ export function Home() {
       },[data,loc])
       // console.log(user)
       
-      console.log(clientOrFreelancer)
+      // console.log("//////////////////")
+      // console.log(clientOrFreelancer)
+      // console.log("//////////////////")
 
   return (
     <>

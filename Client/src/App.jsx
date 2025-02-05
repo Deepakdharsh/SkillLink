@@ -26,6 +26,8 @@ import { ToastContainer } from 'react-toastify';
 import AdminProtectRoute from "./components/adminProtectRoute";
 import ChangePassword from "./pages/auth/ChangePassword";
 import EditProfile from "./pages/adminPages/EditProfile";
+import AdminService from "./pages/adminPages/AdminService";
+import CategoryEditModal from "./pages/adminPages/CategoryEditModal";
 
 ////////////  admin
 
@@ -63,6 +65,8 @@ function App() {
         <Route path="/admin/table" element={<AdminProtectRoute><Layout><TablesPage/></Layout></AdminProtectRoute>} />
         <Route path="/admin/profile-edit" element={<AdminProtectRoute><Layout><EditProfile/></Layout></AdminProtectRoute>} />
         <Route path="/admin/change-password" element={<ChangePassword/>} />
+        <Route path="/admin/category" element={<AdminProtectRoute><Layout><AdminService/></Layout></AdminProtectRoute>} />
+        <Route path="/admin/modal" element={<CategoryEditModal/>} />
         <Route path="*" element={<p>Page Not Found</p>} />
       </Routes> 
         <ToastContainer/>

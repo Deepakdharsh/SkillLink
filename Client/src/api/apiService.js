@@ -139,6 +139,22 @@ export const getuser = async () => {
   }
 };
 
+export const  getAdmin = async (data) => {
+  console.log(data)
+  try {
+    const response = await axiosInstance.get(`/client/get-admin/${data}`);
+    // console.log(response.data)
+    return response.data;
+  } catch (error) {
+    if(error.response){
+      console.error('Error :', error.response.data);
+      return error.response.data
+    }else{
+      console.error('Error:',error.message)
+    }
+  }
+};
+
 export const resetPassword = async (data) => {
   try {
     const response = await axiosInstance.post('/client/reset-password', data);
